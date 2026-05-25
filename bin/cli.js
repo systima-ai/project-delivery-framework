@@ -29,6 +29,7 @@ const path = require('path');
 const SOURCE_ROOT = path.resolve(__dirname, '..');
 const SKILLS_DIR = path.join(SOURCE_ROOT, '.claude', 'skills');
 const CONFIG_DIR = path.join(SOURCE_ROOT, '_pdf', '_config');
+const OPENCODE_COMMANDS_DIR = path.join(SOURCE_ROOT, '.opencode', 'commands');
 
 // -----------------------------------------------------------------------------
 // CLI arg parsing
@@ -144,21 +145,29 @@ function ensureGitkeep(dir, { dryRun = false } = {}) {
 
 function cmdStatus() {
   const target = flags.target;
-  const targetSkillsDir = path.join(target, '.claude', 'skills');
+  const targetClaudeSkills = path.join(target, '.claude', 'skills');
+  const targetAgentsSkills = path.join(target, '.agents', 'skills');
+  const targetOpencodeCommands = path.join(target, '.opencode', 'commands');
   const targetConfigDir = path.join(target, '_pdf', '_config');
 
   console.log(`\nPDF status in: ${target}\n`);
 
-  const installed = listPdfSkills(targetSkillsDir);
+  const claudeInstalled = listPdfSkills(targetClaudeSkills);
+  const agentsInstalled = listPdfSkills(targetAgentsSkills);
+  const opencodeCmdCount = exists(targetOpencodeCommands)
+    ? fs.readdirSync(targetOpencodeCommands).filter((f) => f.startsWith('pdf-') && f.endsWith('.md')).length
+    : 0;
   const source = listPdfSkills(SKILLS_DIR);
 
-  console.log(`  PDF skills installed: ${installed.length} / ${source.length} available`);
+  console.log(`  Claude Code skills (.claude/skills/):  ${claudeInstalled.length} / ${source.length} available`);
+  console.log(`  Tool-agnostic mirror (.agents/skills/): ${agentsInstalled.length} / ${source.length}`);
+  console.log(`  OpenCode commands (.opencode/commands/): ${opencodeCmdCount} / ${source.length}`);
   console.log(`  CSV index:            ${exists(path.join(targetConfigDir, 'pdf-help.csv')) ? 'present' : 'missing'}`);
   console.log(`  Engagements folder:   ${exists(path.join(target, '_pdf-output', 'engagements')) ? 'present' : 'missing'}`);
   console.log(`  Practice folder:      ${exists(path.join(target, '_pdf-output', 'practice')) ? 'present' : 'missing'}`);
 
-  if (installed.length > 0 && installed.length < source.length) {
-    const missing = source.filter((s) => !installed.includes(s));
+  if (claudeInstalled.length > 0 && claudeInstalled.length < source.length) {
+    const missing = source.filter((s) => !claudeInstalled.includes(s));
     console.log(`\n  Missing skills (${missing.length}): ${missing.slice(0, 5).join(', ')}${missing.length > 5 ? '...' : ''}`);
   }
   console.log('');
@@ -216,12 +225,60 @@ function cmdInstall() {
     }
   }
 
-  // 3. Ensure output dirs
+  // 3. Mirror skills to .agents/skills/ for tool-agnostic discovery
+  //    (OpenCode, Codex CLI, and other tools that follow the .agents/ convention)
+  const targetAgentsSkillsDir = path.join(target, '.agents', 'skills');
+  console.log(`  Mirroring skills to .agents/skills/ ...`);
+  let mirroredCount = 0;
+  let mirroredSkipped = 0;
+  for (const skill of skills) {
+    const src = path.join(SKILLS_DIR, skill);
+    const dest = path.join(targetAgentsSkillsDir, skill);
+    try {
+      if (exists(dest) && !flags.force) {
+        mirroredSkipped++;
+        continue;
+      }
+      copyDir(src, dest, { force: flags.force, dryRun: flags.dryRun });
+      mirroredCount++;
+    } catch (err) {
+      errors.push(`mirror ${skill}: ${err.message}`);
+    }
+  }
+  console.log(`  Mirror: ${mirroredCount} mirrored, ${mirroredSkipped} skipped`);
+
+  // 4. Install OpenCode slash-command wrappers (.opencode/commands/)
+  const targetOpencodeCommandsDir = path.join(target, '.opencode', 'commands');
+  console.log(`  Installing OpenCode command wrappers...`);
+  let opencodeCount = 0;
+  let opencodeSkipped = 0;
+  if (exists(OPENCODE_COMMANDS_DIR)) {
+    const commandFiles = fs.readdirSync(OPENCODE_COMMANDS_DIR).filter((f) => f.endsWith('.md'));
+    for (const cmdFile of commandFiles) {
+      const src = path.join(OPENCODE_COMMANDS_DIR, cmdFile);
+      const dest = path.join(targetOpencodeCommandsDir, cmdFile);
+      try {
+        if (exists(dest) && !flags.force) {
+          opencodeSkipped++;
+          continue;
+        }
+        copyFile(src, dest, { force: flags.force, dryRun: flags.dryRun });
+        opencodeCount++;
+      } catch (err) {
+        errors.push(`opencode ${cmdFile}: ${err.message}`);
+      }
+    }
+    console.log(`  OpenCode commands: ${opencodeCount} installed, ${opencodeSkipped} skipped`);
+  } else {
+    console.log(`  OpenCode commands: source not present in package; skipping`);
+  }
+
+  // 5. Ensure output dirs
   console.log(`  Scaffolding _pdf-output/ ...`);
   ensureGitkeep(targetEngagementsDir, { dryRun: flags.dryRun });
   ensureGitkeep(targetPracticeDir, { dryRun: flags.dryRun });
 
-  // 4. Report
+  // 6. Report
   console.log('');
   if (errors.length > 0) {
     console.log(`  Errors (${errors.length}):`);
@@ -234,10 +291,14 @@ function cmdInstall() {
   } else if (installedCount > 0 || skippedCount > 0) {
     console.log(`  Done.\n`);
     console.log(`  Next steps:`);
-    console.log(`    1. Open this directory in Claude Code.`);
+    console.log(`    1. Open this directory in Claude Code, OpenCode, or another compatible agent.`);
     console.log(`    2. Run /pdf-help to see what to do next.`);
     console.log(`    3. Or run /pdf-engagement-init to scaffold a new engagement.`);
     console.log(`    4. Then "hey Marcus" / "hey Ronan" / etc. to talk to an agent.`);
+    console.log(`\n  Skill discovery locations:`);
+    console.log(`    Claude Code:  .claude/skills/`);
+    console.log(`    OpenCode:     .claude/skills/ (auto-discovered) + .opencode/commands/ (slash commands)`);
+    console.log(`    Other tools:  .agents/skills/ (tool-agnostic mirror)`);
     console.log(`\n  See ARCHITECTURE.md for the full spec.\n`);
   }
 

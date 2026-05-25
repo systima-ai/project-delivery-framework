@@ -7,7 +7,7 @@ description: Engagement-closeout checklist with a strict operational core (deliv
 
 Produces `_pdf-output/engagements/{active}/10-closure/closure-checklist.md`. Single living document.
 
-**Structure:** strict operational core (must-complete) + optional commercial and relational extensions (opt-in). Per Lloyd's design choice — A strictly, with C as optional.
+**Structure:** strict operational core (must-complete) + optional commercial and relational extensions (opt-in). Per design choice (operational core strict + relational opt-in).
 
 ## Preconditions
 

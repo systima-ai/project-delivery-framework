@@ -7,7 +7,7 @@ description: Draft a Statement of Work — blank-page from shape and ROM inputs,
 
 Produces `_pdf-output/engagements/{active}/01-shaping/sow-draft.md`. Single file per engagement.
 
-**Template basis (Lloyd's design choice):** blank-page from charter-like inputs by default, with an explicit placeholder for a firm house-style template if the user has one. The workflow will use a provided template's structure but always fills it from PDF's structured inputs (shape + ROM).
+**Template basis (per design choice):** blank-page from charter-like inputs by default, with an explicit placeholder for a firm house-style template if the user has one. The workflow will use a provided template's structure but always fills it from PDF's structured inputs (shape + ROM).
 
 The SoW is the **future charter.** What's vague at SoW time becomes a battle in mobilization. Sofia's principle 4 is the rule.
 

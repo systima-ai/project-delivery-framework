@@ -2,6 +2,23 @@
 
 All notable changes to the Project Delivery Framework.
 
+## [0.1.2] — 2026-05-25
+
+### Added
+
+- **Multi-tool support.** The installer now lands skills into three locations so PDF works natively across multiple AI coding assistants:
+  - `.claude/skills/pdf-*/` — primary location; discovered natively by **Claude Code** and **OpenCode**
+  - `.agents/skills/pdf-*/` — tool-agnostic mirror for any agent following the `.agents/skills/` convention
+  - `.opencode/commands/pdf-*.md` — slash-command wrappers so PDF commands appear as `/pdf-help`, `/pdf-agent-mobilizer`, etc. in OpenCode's TUI
+- `scripts/generate-opencode-commands.js` — build script that generates the OpenCode command wrappers from each skill's frontmatter.
+
+### Changed
+
+- README updated with explicit Claude Code + OpenCode support callout.
+- Installer's "Next steps" output now names the three discovery locations.
+- `cmdStatus` reports installed-skill counts for all three locations.
+- `keywords` in `package.json` now include `opencode`.
+
 ## [0.1.1] — 2026-05-25
 
 ### Changed
@@ -152,8 +169,8 @@ CSV updated: 5 Theo workflows marked `built: true`.
 ### Design decisions made during Stage 6
 
 - **Dual-cadence + dual-view patterns are now established.** Petra introduced them (capacity matrix-and-rows, budget monthly-and-milestone); Theo doubles down (budget tracker weekly-and-monthly, margin period-and-milestone). The pattern is: one workflow handles both because the underlying data is the same and the views are reconciled.
-- **Change orders are on-demand by design.** No silent auto-trigger from approved CRs. Lloyd's `C` answer preserves the cross-skill *offer* pattern: Klaus's CR workflow surfaces "Commercial dimension is material, consider creating a change order" but doesn't dispatch. Friction is intentional because COs are signature documents.
-- **Invoice prep produces backup, not invoices.** Per Lloyd's `A` answer: PDF stops at the audit-defensible evidence pack. The invoice itself goes through Finance. This keeps PDF out of regulated invoicing-system territory and focuses it on the document discipline.
+- **Change orders are on-demand by design.** No silent auto-trigger from approved CRs. the `C` design choice preserves the cross-skill *offer* pattern: Klaus's CR workflow surfaces "Commercial dimension is material, consider creating a change order" but doesn't dispatch. Friction is intentional because COs are signature documents.
+- **Invoice prep produces backup, not invoices.** Per the `A` design choice: PDF stops at the audit-defensible evidence pack. The invoice itself goes through Finance. This keeps PDF out of regulated invoicing-system territory and focuses it on the document discipline.
 - **`pdf-prep-invoice` is one of two workflows in PDF that refuses to write under specific conditions** (the other is `pdf-create-budget-baseline` on reconciliation failure). Refusals: FP without signed acceptance; period without monthly close; pass-through markup hidden in headline. These are commercial-discipline hard rules.
 - **Day-rates and target margin both live in engagement `.pdf-config.toml`.** Stage 5 introduced the pattern; Stage 6 expands its scope. Per-engagement config is becoming a meaningful layer; worth a future utility to lint it.
 - **Commercial-model switches are not silent.** A `pdf-review-commercial-model` workflow that recommends "switch" routes through `pdf-create-change-request` for the substantive change and then `pdf-create-change-order` for the commercial wrapper. The review itself is internal analysis only.
@@ -174,10 +191,10 @@ CSV updated: 4 Quinn workflows marked `built: true`.
 
 ### Design decisions made during Stage 7
 
-- **Dual view (summary table + narrative) is the canonical health-card shape.** Lloyd's `C` answer locks this in. The summary table is the scannable view; the narrative carries the nuance. Both required.
+- **Dual view (summary table + narrative) is the canonical health-card shape.** the `C` design choice locks this in. The summary table is the scannable view; the narrative carries the nuance. Both required.
 - **Cadence: on-demand + 4-weekly default.** `next_default` frontmatter field is set 28 days out. Quinn's menu flags overdue cards in the snapshot greeting.
-- **Source flexibility: paths welcome, interview is fully usable.** Per Lloyd's `B-but-fully-A` answer. Each workflow opens with the same offer — provide artifacts or stick to Q&A — and the workflow proceeds either way without quality loss.
-- **Compliance check is lax (WARNING only).** Per Lloyd's `B` answer. A declared regime with no evidence-of-being-addressed surfaces as a WARNING in the compliance section but does not auto-demote the overall RAG. Reasoning: compliance evidence often lives outside the engagement workspace (with the client's legal team, with Finance), and aggressive auto-demotion would force constant overrides.
+- **Source flexibility: paths welcome, interview is fully usable.** Per the `B-but-fully-A` design choice. Each workflow opens with the same offer — provide artifacts or stick to Q&A — and the workflow proceeds either way without quality loss.
+- **Compliance check is lax (WARNING only).** Per the `B` design choice. A declared regime with no evidence-of-being-addressed surfaces as a WARNING in the compliance section but does not auto-demote the overall RAG. Reasoning: compliance evidence often lives outside the engagement workspace (with the client's legal team, with Finance), and aggressive auto-demotion would force constant overrides.
 - **Cross-skill offers, not auto-dispatches.** Every Quinn workflow *offers* `pdf-update-raid` when sub-dimensions are RED but doesn't silently chain. Consistent with the pattern established in earlier stages.
 - **Overall RAG rule: worst of sub-dimensions, override allowed with justification.** Cards refusing GREEN-overall-when-any-sub-AMBER-without-justification prevents false-positive aggregations.
 - **Compliance regime cross-check is one of the framework's most ambitious cross-artifact integrations.** Reads charter → matches declared regimes → looks for evidence → reports per-regime status. The lax posture keeps it usable; future tightening to strict is a one-line `customize.toml` change.
@@ -213,7 +230,7 @@ CSV updated: 5 Iris workflows marked `built: true`.
 
 ### New architecture section: §20 — Future: API sync providers (planned, Stage 12)
 
-Added in response to Lloyd's note about wanting Jira/etc API integration eventually. §20 documents:
+Added in response to a stated need for wanting Jira/etc API integration eventually. §20 documents:
 
 - The provider model (Jira, ADO, GitHub, GitLab, Confluence, Calendar, Slack/Teams, time-tracking)
 - Per-engagement `.pdf-config.toml` configuration with env-var credentials
@@ -230,19 +247,19 @@ Added in response to Lloyd's note about wanting Jira/etc API integration eventua
 ### Stage 9 — Sofia the Shaper (2026-05-25)
 
 - `.claude/skills/pdf-agent-shaper/` — Sofia persona. Six principles inc. "Qualification is not optional. No-go is a valid outcome" and "Walking away preserves credibility for the next opportunity".
-- `.claude/skills/pdf-qualify-opportunity/` — **MEDDIC framework** (Lloyd's A choice). Refuses GO without named Champion. Refuses NO-GO without rationale. + `references/meddic-guide.md` (~10 KB) with canonical question, Strong/Weak/Unknown criteria, and probe questions per element.
+- `.claude/skills/pdf-qualify-opportunity/` — **MEDDIC framework** (design choice: A). Refuses GO without named Champion. Refuses NO-GO without rationale. + `references/meddic-guide.md` (~10 KB) with canonical question, Strong/Weak/Unknown criteria, and probe questions per element.
 - `.claude/skills/pdf-shape-opportunity/` — three sizing options (Small/Medium/Large), enforced as genuinely different in shape, not just scale. 3+ assumptions with consequences. Top-5 risks. Recommended option must name trade-off being accepted.
-- `.claude/skills/pdf-estimate-rom/` — **explicit cone of uncertainty** (Lloyd's A choice). Five stages from feasibility (-50% to +100%) to build-complete (±5%). Refuses single-point estimates. + `references/cone-of-uncertainty.md` (~7 KB) with ASCII-art cone diagram, anti-patterns, and external-communication framing. Red-team default-on.
-- `.claude/skills/pdf-draft-sow/` — **blank-page-with-optional-template** (Lloyd's C choice). Workflow asks at create: "do you have a firm template?". If yes, uses its structure; if no, generates canonical 17-section generic SoW. Mandatory reviewer notes per section. Refuses subjective acceptance criteria, single-point commercials, empty out-of-scope sections, assumptions without consequences, no change-control. **Six inline red-team checks** — the most thorough in PDF.
+- `.claude/skills/pdf-estimate-rom/` — **explicit cone of uncertainty** (design choice: A). Five stages from feasibility (-50% to +100%) to build-complete (±5%). Refuses single-point estimates. + `references/cone-of-uncertainty.md` (~7 KB) with ASCII-art cone diagram, anti-patterns, and external-communication framing. Red-team default-on.
+- `.claude/skills/pdf-draft-sow/` — **blank-page-with-optional-template** (design choice: C). Workflow asks at create: "do you have a firm template?". If yes, uses its structure; if no, generates canonical 17-section generic SoW. Mandatory reviewer notes per section. Refuses subjective acceptance criteria, single-point commercials, empty out-of-scope sections, assumptions without consequences, no change-control. **Six inline red-team checks** — the most thorough in PDF.
 
 CSV updated: 4 Sofia workflows marked `built: true`.
 
 ### Design decisions made during Stage 9
 
-- **MEDDIC is hard-coded.** Per Lloyd's A choice. Other frameworks (BANT, custom) deliberately not built — narrowing the choice forces the discipline.
+- **MEDDIC is hard-coded.** Per the A design choice. Other frameworks (BANT, custom) deliberately not built — narrowing the choice forces the discipline.
 - **Cone of uncertainty is structurally enforced.** The workflow refuses to let you narrow the cone without new information justifying the narrowing. Override is allowed (for repeat-deployment opportunities) but requires explicit reasoning in frontmatter.
 - **SoW is the framework's most thoroughly red-teamed artifact.** Six inline cynical-review questions; rejection conditions for five specific failure patterns; reviewer notes required per section. The reasoning: SoW failures are the most expensive in the framework because they bind for the entire engagement and cost-of-change is highest.
-- **Four chained documents (Lloyd's A choice for §4).** Each stands alone; each has its own audit trail; the chain is explicit in the CSV `preceded_by` column. Means more files but every step is independently versionable, validatable, and revisable.
+- **Four chained documents (design choice for §4).** Each stands alone; each has its own audit trail; the chain is explicit in the CSV `preceded_by` column. Means more files but every step is independently versionable, validatable, and revisable.
 - **Sofia precedes Marcus.** First agent in PDF that explicitly works without a populated charter. The SoW (signed) is the input to Marcus's charter (active); Sofia's outputs are pre-contract.
 
 ### Built so far (across Stages 0–9)
@@ -252,10 +269,10 @@ CSV updated: 4 Sofia workflows marked `built: true`.
 ### Stage 10 — Felix the Finisher (2026-05-25)
 
 - `.claude/skills/pdf-agent-finisher/` — Felix persona. Six principles inc. "Closure compounds" and "Lessons that don't propagate are the ones you'll repeat".
-- `.claude/skills/pdf-closure-checklist/` — strict 10-item operational core + 7-item opt-in relational extensions (Lloyd's A-strictly-with-C-optional choice). Refuses closed-state with unticked operational items. Refuses ticked items without evidence/date/name.
-- `.claude/skills/pdf-run-retrospective/` — single file, two sections (Lloyd's A choice): internal (full honesty) above the line + client-shareable (redacted) below. + `references/retrospective-formats.md` (~6 KB) with four formats (Liked/Learned/Lacked/Longed-for, What Went Well/Didn't/Change, Sailboat, 5-Whys), when each fits, anti-patterns.
-- `.claude/skills/pdf-capture-lessons/` — **dual-write** (Lloyd's B choice): engagement-scoped file + per-lesson files in `_pdf-output/practice/lessons-learned/`. **Only workflow in PDF that writes outside the engagement folder.** Refuses generic lessons; refuses no recall trigger.
-- `.claude/skills/pdf-create-case-study/` — both variants in one file (Lloyd's B choice): internal (canonical, named, detailed) + public (redacted, polished, commercial asset). Public variant red-team default-on with 5 cynical-review questions. Refuses identical variants.
+- `.claude/skills/pdf-closure-checklist/` — strict 10-item operational core + 7-item opt-in relational extensions (design choice: A-strictly-with-C-optional). Refuses closed-state with unticked operational items. Refuses ticked items without evidence/date/name.
+- `.claude/skills/pdf-run-retrospective/` — single file, two sections (design choice: A): internal (full honesty) above the line + client-shareable (redacted) below. + `references/retrospective-formats.md` (~6 KB) with four formats (Liked/Learned/Lacked/Longed-for, What Went Well/Didn't/Change, Sailboat, 5-Whys), when each fits, anti-patterns.
+- `.claude/skills/pdf-capture-lessons/` — **dual-write** (design choice: B): engagement-scoped file + per-lesson files in `_pdf-output/practice/lessons-learned/`. **Only workflow in PDF that writes outside the engagement folder.** Refuses generic lessons; refuses no recall trigger.
+- `.claude/skills/pdf-create-case-study/` — both variants in one file (design choice: B): internal (canonical, named, detailed) + public (redacted, polished, commercial asset). Public variant red-team default-on with 5 cynical-review questions. Refuses identical variants.
 - `.claude/skills/pdf-create-handover-pack/` — 12-section structure including unusual sections like "What I'd watch for" (quiet risks) and "Things I'd rather you didn't change (yet)" (implicit-practice preservation). Refuses operational-only for DM-replacement context. Most-personal artifact in PDF.
 
 CSV updated: 5 Felix workflows marked `built: true`.
@@ -277,8 +294,8 @@ CSV updated: 5 Felix workflows marked `built: true`.
 - `.claude/skills/pdf-red-team/` — three modes (cynical / edge-case / acceptance). + `references/red-team-checks.md` (~14 KB) consolidating per-artifact-type check sets from the previously-inline simulations across 9 workflows. Refuses pass-with-high-severity-findings; never silent on frontmatter updates.
 - `.claude/skills/pdf-translate/` — 12 archetypes (9 audience-up from Helena's pool + 3 peer-role: Commercial-Lead / Product-Lead / Engineer). + `references/translate-archetypes.md` with per-archetype framing rules + cross-cutting translation rules + adding-custom-archetypes pattern. **Substance-integrity enforcement** refuses to soften hard claims or lose claims.
 - `.claude/skills/pdf-decision-log/` — per-stage decision sub-files (`<stage>/decisions/DEC-NNN-<slug>.md`) + engagement-level index at `decision-log.md`. Default immutable; reversals are new decisions. Refuses single-option "decisions"; refuses group decision-makers.
-- `.claude/skills/pdf-audit-log/` — dual-mode (Lloyd's B choice). Background mode writes per-run JSONL with prompt hash + output hash (never content). Query mode is user-invocable with time / skill / artifact / outcome filters. Confidentiality-respecting; refuses cross-engagement queries (v2 candidate: `pdf-portfolio`).
-- `.claude/skills/pdf-elicit/` — standalone skill (Lloyd's A choice). Reads any artifact's gaps; walks them interactively; **dispatches writes to the artifact's own workflow update intent** — never writes directly. Preserves all workflow disciplines (charter revision bumps, RAID history appends, confidentiality flags, red-team gates).
+- `.claude/skills/pdf-audit-log/` — dual-mode (design choice: B). Background mode writes per-run JSONL with prompt hash + output hash (never content). Query mode is user-invocable with time / skill / artifact / outcome filters. Confidentiality-respecting; refuses cross-engagement queries (v2 candidate: `pdf-portfolio`).
+- `.claude/skills/pdf-elicit/` — standalone skill (design choice: A). Reads any artifact's gaps; walks them interactively; **dispatches writes to the artifact's own workflow update intent** — never writes directly. Preserves all workflow disciplines (charter revision bumps, RAID history appends, confidentiality flags, red-team gates).
 
 ### Migration: red-team consolidation
 

@@ -2,7 +2,7 @@
 
 > Spec-driven, AI-assisted operating system for the "CEO of the engagement".
 > Status: **DRAFT v0.1** — awaiting per-agent consultation before scaffolding skill files.
-> Audience: Lloyd (author) and any future contributor/colleague under NDA.
+> Audience: Systima and any future contributor or colleague using the framework.
 
 ---
 
@@ -308,10 +308,10 @@ last_updated_by: systima
 
 | Rev | Date | Author | Section | Change | Trigger | Approved by |
 |---:|---|---|---|---|---|---|
-| 7 | 2026-05-25 | Lloyd | Scope | Added Phase 3 milestone | CR-014 | Client Sponsor |
-| 6 | 2026-05-18 | Lloyd | Stakeholders | Added new exec sponsor | Sponsor change | — |
+| 7 | 2026-05-25 | Systima | Scope | Added Phase 3 milestone | CR-014 | Client Sponsor |
+| 6 | 2026-05-18 | Systima | Stakeholders | Added new exec sponsor | Sponsor change | — |
 | ... | ... | ... | ... | ... | ... | ... |
-| 1 | 2026-04-01 | Lloyd | All | Initial charter at signature | Kickoff | Client Sponsor |
+| 1 | 2026-04-01 | Systima | All | Initial charter at signature | Kickoff | Client Sponsor |
 ```
 
 The change-log table is **append-only** and lives at the bottom of the same file. The current state lives at the top. Git history is the second-line audit (every commit is a charter delta) but the in-file change-log is the human-readable first line.

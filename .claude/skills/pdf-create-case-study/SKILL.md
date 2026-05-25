@@ -5,7 +5,7 @@ description: Compose an engagement case study with both internal and public vari
 
 # Case study workflow
 
-Produces `_pdf-output/engagements/{active}/10-closure/case-study.md`. **Single file, two variants** (per Lloyd's B choice).
+Produces `_pdf-output/engagements/{active}/10-closure/case-study.md`. **Single file, two variants** (per design choice).
 
 Felix's principle 6 is the rule: case studies are commercial assets. The public variant is treated as such — invested in, redacted thoughtfully, written to be useful for sales conversations.
 

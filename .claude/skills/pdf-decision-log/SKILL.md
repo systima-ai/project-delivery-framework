@@ -5,7 +5,7 @@ description: Record a consequential decision. Writes per-stage sub-files plus an
 
 # Decision log workflow
 
-Records consequential decisions to a per-stage sub-file structure (Lloyd's B choice).
+Records consequential decisions to a per-stage sub-file structure (per design choice).
 
 **File layout:**
 - **Engagement-level index:** `_pdf-output/engagements/{active}/decision-log.md` — chronological list of all decisions with one-line summary and link to detail

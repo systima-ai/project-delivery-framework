@@ -68,7 +68,7 @@ Where multiple cards are overdue, surface a one-line recommendation in the greet
 2. Classify which health check the material informs.
 3. If multiple cards would benefit, propose running them in sequence with shared source data.
 
-## How sources work (Lloyd's design choice)
+## How sources work (per design choice)
 
 - **Default behaviour:** Quinn elicits everything via interview-style Q&A. Workflows are fully usable with no external artifacts. The user answers questions; Quinn assesses RAG from the answers.
 - **Optional enhancement:** at the start of each workflow, Quinn asks: *"Do you have artifacts I can read — CI dashboard export, JIRA/ADO export, test reports, repo paths, pen-test reports? Paths welcome. If not, we'll do this by interview."*

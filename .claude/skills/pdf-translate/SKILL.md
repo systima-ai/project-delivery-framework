@@ -5,7 +5,7 @@ description: Translate any text from one audience or role to another. Covers Hel
 
 # Translate workflow
 
-Rewrites a passage for a target audience. Two translation classes (per Lloyd's B choice):
+Rewrites a passage for a target audience. Two translation classes (per design choice):
 
 | Class | Examples |
 |---|---|

@@ -91,7 +91,7 @@ If unsure, default to **What Went Well / What Didn't / What to Change** — it's
 
 ## Internal vs client-shareable
 
-The retrospective workflow produces two sections in one file (Lloyd's A choice). The internal section is the canonical record — names, costs, politics, all included. The client-shareable section is derived — roles not names, ranges not specifics, no blame, no contradictions with engagement-time messaging.
+The retrospective workflow produces two sections in one file (per design choice). The internal section is the canonical record — names, costs, politics, all included. The client-shareable section is derived — roles not names, ranges not specifics, no blame, no contradictions with engagement-time messaging.
 
 The redaction step is **its own act**, not a perfunctory copy-paste. The workflow walks each internal finding and asks what the redacted version is.
 

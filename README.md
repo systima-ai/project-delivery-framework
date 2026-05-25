@@ -55,17 +55,24 @@ npx @systima/project-delivery-framework --dry-run
 npx @systima/project-delivery-framework status
 ```
 
-The installer copies:
+The installer copies skills into **three locations** so multiple AI tools work out of the box:
 
-- `.claude/skills/pdf-*/` — 62 skill folders (10 agents + 52 workflows / utilities)
-- `_pdf/_config/pdf-help.csv` — the skill index that drives `pdf-help`
+- `.claude/skills/pdf-*/` — primary location; discovered natively by **Claude Code** and **OpenCode** (62 skill folders)
+- `.agents/skills/pdf-*/` — tool-agnostic mirror for any agent following the `.agents/skills/` convention
+- `.opencode/commands/pdf-*.md` — slash-command wrappers so PDF commands appear as `/pdf-help`, `/pdf-agent-mobilizer`, etc. in **OpenCode**'s TUI
+
+You can also use any other tool that supports the `.claude/skills/` or `.agents/skills/` discovery patterns (e.g. Codex CLI with the relevant plugin).
+
+The installer also creates:
+
+- `_pdf/_config/pdf-help.csv` — the skill index that drives `pdf-help` recommendations
 - `_pdf-output/engagements/` and `_pdf-output/practice/` — empty output roots
 
 It does **not** touch any existing skills from other frameworks (BMAD, Anthropic plugins, etc.). PDF coexists by namespace (`pdf-*`).
 
 ## Quick start
 
-Open the installed directory in **Claude Code**, then:
+Open the installed directory in **Claude Code** or **OpenCode**, then:
 
 ```
 /pdf-engagement-init        # scaffold a new engagement

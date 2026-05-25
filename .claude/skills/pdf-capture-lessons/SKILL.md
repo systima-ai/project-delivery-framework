@@ -5,7 +5,7 @@ description: Capture engagement lessons and propagate them to the cross-engageme
 
 # Capture lessons workflow
 
-This workflow writes two files (Lloyd's B choice for propagation):
+This workflow writes two files (design choice for propagation):
 
 1. `_pdf-output/engagements/{active}/10-closure/lessons-learned.md` — engagement-scoped, full lessons in narrative form
 2. `_pdf-output/practice/lessons-learned/<YYYY>-<engagement-slug>-<topic>.md` — **one file per material lesson**, cross-engagement, structured for retrieval

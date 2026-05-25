@@ -5,7 +5,7 @@ description: Background-and-queryable audit log. Writes per-run JSONL records of
 
 # Audit log workflow
 
-Two modes (Lloyd's B choice):
+Two modes (per design choice):
 
 1. **Background mode** (invisible to the user) — every PDF workflow's invocation writes a JSONL record to `_pdf-output/engagements/{active}/audit-log/<YYYY-MM-DD>T<HH-MM-SS>Z.jsonl` with prompt, model, output hash, and outcome.
 2. **Query mode** (user-invocable) — the user invokes the skill to ask "show me audit-log entries this week / for this artifact / for this skill" and receives a summary report.

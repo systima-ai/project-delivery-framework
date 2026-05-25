@@ -7,7 +7,7 @@ description: Standalone elicitation skill. Walks any PDF artifact's gaps interac
 
 The framework's interactive gap-filler. Reads an existing artifact, identifies what's missing or marked TBC, walks the user through one question at a time, and dispatches the writes back to the artifact's own workflow.
 
-This is a **standalone skill** (per Lloyd's A choice) — directly invocable. The user says "elicit me through the gaps in [path]" and the workflow runs.
+This is a **standalone skill** (per design choice) — directly invocable. The user says "elicit me through the gaps in [path]" and the workflow runs.
 
 ## Preconditions
 

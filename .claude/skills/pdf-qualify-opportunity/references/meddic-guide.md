@@ -2,7 +2,7 @@
 
 Originated at PTC in the 1990s; used widely in enterprise sales and increasingly in consulting opportunity qualification. Six elements; each must be addressed; gaps are themselves findings.
 
-PDF uses MEDDIC as the canonical qualification framework (Lloyd's design choice). Other frameworks (BANT, custom) are not built into v0.1.
+PDF uses MEDDIC as the canonical qualification framework (per design choice). Other frameworks (BANT, custom) are not built into v0.1.
 
 ---
 

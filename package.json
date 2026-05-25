@@ -1,10 +1,11 @@
 {
   "name": "@systima/project-delivery-framework",
-  "version": "0.1.1",
-  "description": "Spec-driven, AI-assisted operating system for delivery / engagement managers. A Claude Code skill library with 10 stage agents and 52 workflows covering shaping, mobilization, planning, execution, governance, risk, quality, commercial, people, and closure.",
+  "version": "0.1.2",
+  "description": "Spec-driven, AI-assisted operating system for delivery / engagement managers. Multi-tool skill library (Claude Code, OpenCode, and any tool supporting .agents/skills/) with 10 stage agents and 52 workflows covering shaping, mobilization, planning, execution, governance, risk, quality, commercial, people, and closure.",
   "keywords": [
     "claude-code",
     "claude",
+    "opencode",
     "ai",
     "delivery-management",
     "project-management",
@@ -33,7 +34,9 @@
   "main": "bin/cli.js",
   "files": [
     "bin/",
+    "scripts/",
     ".claude/",
+    ".opencode/",
     "_pdf/",
     "ARCHITECTURE.md",
     "CHANGELOG.md",
@@ -41,6 +44,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node bin/cli.js --help"
+    "test": "node bin/cli.js --help",
+    "generate-opencode-commands": "node scripts/generate-opencode-commands.js"
   }
 }
