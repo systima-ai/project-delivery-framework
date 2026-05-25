@@ -2,7 +2,20 @@
 
 All notable changes to the Project Delivery Framework.
 
-## [Unreleased]
+## [0.1.1] — 2026-05-25
+
+### Changed
+
+- Package renamed from `project-delivery-framework` to `@systima/project-delivery-framework` (scoped under the Systima npm org). Install command is now `npx @systima/project-delivery-framework`.
+- README and `bin/cli.js` updated to reflect the scoped name throughout (12 occurrences).
+- README badges added: npm version, GitHub release.
+
+### Notes
+
+- The unscoped package at `npmjs.com/package/project-delivery-framework` has been deleted; only `@systima/project-delivery-framework` exists going forward.
+- The `bin` field in `package.json` is unchanged — npm correctly resolves the package basename against bin keys, so the binary still installs as `project-delivery-framework` (with `pdf-install` as a secondary alias).
+
+## [0.1.0] — 2026-05-25 (initial release, published unscoped then re-scoped as 0.1.1)
 
 ### Stage 0 — Scaffold (2026-05-25)
 
