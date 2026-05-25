@@ -1,0 +1,176 @@
+---
+name: pdf-create-case-study
+description: Compose an engagement case study with both internal and public variants in a single file. Public variant is the external commercial asset (anonymised, marketing-grade); internal variant carries the detail and named specifics. Use when the engagement has closed successfully and there's a story worth telling.
+---
+
+# Case study workflow
+
+Produces `_pdf-output/engagements/{active}/10-closure/case-study.md`. **Single file, two variants** (per Lloyd's B choice).
+
+Felix's principle 6 is the rule: case studies are commercial assets. The public variant is treated as such — invested in, redacted thoughtfully, written to be useful for sales conversations.
+
+**Red-team is default ON for the public variant.** It's the most genuinely client-shareable artifact PDF produces.
+
+## Preconditions
+
+- `pdf-run-retrospective` complete (the substance comes from the retro's findings)
+- `pdf-closure-checklist` operational core ≥ 80% (don't write case studies for engagements that aren't closed)
+
+## Intent: create
+
+1. **Confirm public-shareability.** *"Has the client agreed (or is likely to agree) to a case study being published in some form? Yes / pending / no."* If `no`, the workflow asks whether to proceed with internal-only (skipping the public variant). The single-file two-variant model fits even when one variant is empty.
+
+2. **Establish the narrative arc.** Walk:
+   - **Context** — who the client is (will be redacted in public variant), what they were trying to do, why now
+   - **Challenge** — what made this hard; what made it interesting
+   - **Approach** — what you did; named methodology only if it actually shaped the outcome (avoid name-dropping)
+   - **Result** — what happened; specifics if cleared, ranges if not
+   - **What's notable** — what this case study illustrates that's worth a sales conversation; the "you should call me about this" hook
+
+3. **Compose the internal variant first.** Full detail — client name, financials, specific tech choices, named team members, specific decisions and their consequences. This is the canonical version.
+
+4. **Compose the public variant.** Walk each internal section and produce a redacted, polished version:
+   - Client name → industry + scale ("a FTSE 250 retailer", "a regional NHS trust", "a Tier-1 European bank")
+   - Specific financials → ranges or qualitative ("multi-million-pound", "saved millions per year", "tripled throughput")
+   - Named individuals → roles only
+   - Named tech / vendors → only where notable and cleared
+   - Specific failure or risk content → only if cleared and only if it serves the story (sometimes failure stories are the strongest case studies; require client buy-in)
+
+5. **Compose:**
+
+```markdown
+---
+artifact_type: case-study
+engagement: <slug>
+date: <YYYY-MM-DD>
+client_consent_status: <agreed | pending | no>
+public_variant_published: <YYYY-MM-DD or "not-yet">
+generated_by: pdf-create-case-study
+red_teamed_public_variant: false
+---
+
+# Case study — <Engagement name>
+
+> Two variants. Internal version above the line (canonical). Public version below the line (external-facing commercial asset). Client consent status recorded in frontmatter.
+
+---
+
+## Internal variant (canonical; do not share)
+
+### Context
+
+<paragraph; named client, full detail>
+
+### Challenge
+
+<paragraph; specific>
+
+### Approach
+
+<paragraph; specific, named decisions, named tech, named team>
+
+### Result
+
+<paragraph; specific numbers, dates, scale>
+
+### What's notable
+
+<paragraph; why this engagement is worth a case study at all; what it teaches us about ourselves; what we'd lead with in a sales conversation>
+
+### Lessons (cross-references)
+
+(Pull from `lessons-learned.md` if propagated.)
+
+- <lesson> — practice library: <path>
+
+---
+
+## Public variant (external-facing; redacted, polished)
+
+> This variant has been redacted for public use. Client name replaced with industry+scale framing. Specific figures replaced with ranges or qualitative descriptors. Individual names replaced with roles.
+
+### Context
+
+<paragraph; industry+scale framing, no client name>
+
+### Challenge
+
+<paragraph; no specifics that would identify the client>
+
+### Approach
+
+<paragraph; named methodology only if actually shaped the outcome; technical specifics only if cleared>
+
+### Result
+
+<paragraph; ranges and qualitative descriptors>
+
+### Why it's notable
+
+<paragraph; the hook; what this story is genuinely about>
+
+---
+
+## Redaction integrity check (run before publishing public variant)
+
+- [ ] No specific client name (or only if explicit consent)
+- [ ] No specific financial figures unless cleared
+- [ ] No individual names (only roles)
+- [ ] Specific tech / vendor mentions are intentional and cleared
+- [ ] Failure / risk content present only if cleared (and serves the story)
+- [ ] Frontmatter `red_teamed_public_variant: true` before publishing
+- [ ] Frontmatter `client_consent_status: agreed`
+
+---
+
+_Generated by `pdf-create-case-study`. Red-team gate on public variant: ON. Reviewer routing for public variant: <Legal / Marketing / Account-lead names>._
+```
+
+6. **Run simulated red-team on the public variant only.**
+   - *Would the client recognise themselves uncomfortably? If yes, redact more.*
+   - *Is the "approach" section honest, or polished beyond what was true?*
+   - *Are any results overstated or attribution-unclear?*
+   - *Is there a "you should call me about this" hook, or is it a generic feel-good?*
+   - *Would the client sponsor be happy to be quoted endorsing the public version?*
+
+7. **Cross-skill side effects.**
+   - If `client_consent_status: pending` → recommend logging the consent ask to `decision-log.md` so it's tracked.
+   - If lessons-learned has cross-engagement entries → cite them in the internal variant's "Lessons" cross-references.
+   - On `public_variant_published`: offer Helena (`pdf-write-stakeholder-update` for the sponsor) to share the public version with named appreciation.
+
+8. **Write.**
+
+## Intent: update
+
+1. Common updates: client consent received → update status; public variant published → record date.
+2. Revisions to the public variant after Marketing / Legal review → record in History section.
+3. Updating the internal variant is allowed but rare; case studies tend to be point-in-time snapshots.
+
+## Intent: validate
+
+- [ ] Frontmatter complete; `client_consent_status` declared
+- [ ] Both variants present (public may be empty if `consent_status: no`, but the section exists)
+- [ ] If public variant is published: `red_teamed_public_variant: true` AND consent `agreed`
+- [ ] Internal variant has all five sections (Context / Challenge / Approach / Result / What's notable)
+- [ ] Public variant: no client name (unless consent-confirmed); no individual names; no specific financials (unless cleared)
+
+## Intent: dump-merge
+
+Accept dumped material (a client testimonial, a marketing brief, an internal sales conversation). Map to the canonical structure; produce both variants.
+
+## Anti-patterns to refuse
+
+- **Public variant identical to internal.** Refuse. Redaction is the work.
+- **No "What's notable" / hook section.** Refuse. A case study without a sales hook is content; not a commercial asset.
+- **Result claims with no attribution.** "Throughput tripled" without "directly attributable to the platform we delivered" is dishonest; the workflow probes.
+- **Identifiable client signals in public variant** (e.g. unique numbers, distinctive locations, named tools used uniquely by one organisation). Validation flags.
+
+## Red-team posture
+
+- **Internal variant:** off.
+- **Public variant:** **default ON** before publication. Five cynical-review questions inline.
+
+## Reference
+
+- `ARCHITECTURE.md` §6.10, §16
+- Felix's principle 6 (case studies are commercial assets)

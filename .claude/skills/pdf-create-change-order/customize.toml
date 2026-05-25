@@ -1,0 +1,42 @@
+[workflow]
+artifact_pattern = "08-commercial/change-orders/{date}-{id}-{slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-change-request"]
+id_prefix = "CO"
+on_demand_only = true  # never auto-triggered; user must invoke
+
+[workflow.statuses]
+allowed = ["draft", "in-review", "signed", "applied", "rejected"]
+default_on_create = "draft"
+
+[workflow.linking]
+require_linked_cr = true
+allow_in_review_cr = true  # but flag in frontmatter
+forbid_unrelated_bundling = true
+
+[workflow.pricing_required_fields]
+fields = ["one_off", "per_period", "milestone_changes", "net_change_to_grand_total"]
+reconciliation_check = true
+
+[workflow.approvers]
+client_signatory_required = true
+internal_approver_required = true
+both_must_be_named_individuals = true
+
+[workflow.red_team]
+default = "on"
+required_before_status_beyond_draft = true
+inline_simulation_until_skill_exists = false
+dispatch_to = "pdf-red-team"
+checks = [
+  "Every commercial dimension of the CR priced explicitly?",
+  "Net-change honestly computed including run-rate?",
+  "Pass-through costs separated from margin?",
+  "Effective-from aligned with actual start?",
+  "Both signatories named and contactable?",
+]
+
+[workflow.handoff]
+on_signed = "pdf-create-budget-baseline"  # update intent
+on_rejected = "pdf-create-change-request"  # update intent for the linked CR
+on_completion = "pdf-help"

@@ -1,0 +1,29 @@
+[workflow]
+artifact_pattern = null  # outputs are typically used inline; no persistent artifact unless user requests
+intents = ["translate", "translate-with-feedback", "validate", "dump-merge"]
+preceded_by = []
+
+[workflow.archetypes]
+audience_up = ["CIO", "CTO", "CFO", "COO", "Client-PM", "Engineering-Lead", "Legal-Compliance", "Board-NED", "Executive-Sponsor"]
+peer_roles = ["Commercial-Lead", "Product-Lead", "Engineer"]
+all = ["CIO", "CTO", "CFO", "COO", "Client-PM", "Engineering-Lead", "Legal-Compliance", "Board-NED", "Executive-Sponsor", "Commercial-Lead", "Product-Lead", "Engineer"]
+allow_adhoc_profile = true
+
+[workflow.required_notes]
+items = ["What I re-ordered", "What I re-languaged", "What I re-scoped", "What I deliberately preserved"]
+all_required = true
+
+[workflow.substance_integrity]
+preserve_claims = true
+forbid_softening = true
+forbid_smuggling_new_claims = true
+require_substance_check = true
+
+[workflow.refusals]
+refuse_softened_hard_claims = true
+refuse_lost_claims = true
+refuse_added_commitments = true
+
+[workflow.handoff]
+on_completion = "pdf-help"
+on_substance_concern = "pdf-red-team"  # if user is uncertain whether substance was preserved

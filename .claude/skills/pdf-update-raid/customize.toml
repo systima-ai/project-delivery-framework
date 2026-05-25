@@ -1,0 +1,29 @@
+[workflow]
+artifact = "04-execution/RAID.md"
+intents = ["append", "update", "close", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+default_intent = "append"
+
+[workflow.id_prefixes]
+risk = "R"
+assumption = "A"
+issue = "I"
+dependency = "D"
+
+[workflow.risk_rules]
+likelihood_scale = [1, 2, 3, 4, 5]
+impact_scale = [1, 2, 3, 4, 5]
+treatments = ["Treat", "Tolerate", "Transfer", "Terminate"]
+statuses = ["open", "in-mitigation", "materialised", "closed"]
+
+[workflow.issue_rules]
+stale_threshold_days = 21
+statuses = ["open", "in-progress", "closed"]
+
+[workflow.sharding]
+closed_threshold_per_section = 20
+shard_target = "04-execution/RAID-closed.md"
+
+[workflow.handoff]
+on_risk_materialised = "pdf-triage-blocker"
+on_completion = "pdf-help"

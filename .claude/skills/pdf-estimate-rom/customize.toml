@@ -1,0 +1,47 @@
+[workflow]
+artifact = "01-shaping/rom-estimate.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-shape-opportunity"]
+recommended_preceded_by = ["pdf-qualify-opportunity"]
+
+[workflow.cone_stages]
+# (stage, low_pct, high_pct) — overridable per firm
+items = [
+  { stage = "feasibility",     low_pct = -50, high_pct = 100 },
+  { stage = "concept",         low_pct = -33, high_pct = 50  },
+  { stage = "scope-agreed",    low_pct = -25, high_pct = 25  },
+  { stage = "design-complete", low_pct = -10, high_pct = 15  },
+  { stage = "build-complete",  low_pct = -5,  high_pct = 5   },
+]
+default_at_shape_stage = "feasibility"
+
+[workflow.contingency]
+minimum_suspicious_pct = 20
+require_transparent_line_item = true
+forbid_embedding_in_line_items = true
+
+[workflow.required_sections]
+items = [
+  "Headline (cone view)",
+  "Build-up (labour + pass-throughs + contingency)",
+  "Assumptions baked into this estimate",
+  "Sensitivity",
+  "What changes when (cone-narrowing)",
+  "Recommendation for the commercial conversation",
+]
+
+[workflow.red_team]
+default = "on"
+required_before_finalise = true
+inline_simulation_until_skill_exists = false
+dispatch_to = "pdf-red-team"
+checks = [
+  "Which assumption hides a big cost?",
+  "Is contingency real or theatre?",
+  "Are we anchoring on client reference numbers?",
+  "Would low-end delivery be uncomfortable?",
+  "Hidden access assumptions (data, people, systems)?",
+]
+
+[workflow.handoff]
+on_completion = "pdf-draft-sow"

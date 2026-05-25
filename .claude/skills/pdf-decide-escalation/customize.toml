@@ -1,0 +1,30 @@
+[workflow]
+artifact_pattern = "06-risk-change/escalation-decisions/{date}-{topic_slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = []
+
+[workflow.outcomes]
+allowed_recommendations = ["escalate", "do-not-escalate", "wait-then-decide"]
+
+[workflow.structure]
+sections = [
+  "Trigger",
+  "Situation",
+  "Factors for escalation",
+  "Factors against escalation",
+  "Comparative analysis",
+  "Recommendation",
+]
+require_balanced_factors = true
+allow_explicit_asymmetry = true
+
+[workflow.factor_weights]
+allowed = ["low", "medium", "high"]
+
+[workflow.handoff]
+on_escalate = "pdf-write-escalation-memo"
+on_do_not_escalate = "pdf-decision-log"  # not yet built; interim: append to decision-log.md directly
+on_wait_then_decide = "pdf-help"
+
+[workflow.red_team]
+default = "off"

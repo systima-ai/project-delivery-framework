@@ -1,0 +1,28 @@
+[workflow]
+artifact_patterns = [
+  "08-commercial/margin-analyses/period/{year_month}.md",
+  "08-commercial/margin-analyses/milestone/{milestone_id}.md",
+]
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-budget-baseline"]
+
+[workflow.views]
+choices = ["period", "milestone"]
+require_explicit_choice = true
+
+[workflow.target_margin_source]
+preferred = "_pdf-output/engagements/{active}/.pdf-config.toml"
+preferred_key = "target_gross_margin_pct"
+fallback_to_elicit = true
+
+[workflow.thresholds]
+below_target_pct_for_model_review = 5  # if GM is more than 5pp below target, offer model review
+
+[workflow.attribution]
+per_milestone_methods_allowed = ["pro_rata_capacity", "phase_boundaries", "direct_timesheet"]
+require_method_named = true
+
+[workflow.handoff]
+on_below_target = "pdf-review-commercial-model"
+on_below_target_milestone_with_payment = "pdf-write-exec-summary"
+on_completion = "pdf-help"

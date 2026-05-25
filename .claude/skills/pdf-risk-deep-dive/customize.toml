@@ -1,0 +1,38 @@
+[workflow]
+artifact_pattern = "06-risk-change/risk-deep-dives/{date}-{risk_id}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.source]
+raid = "04-execution/RAID.md"
+require_risk_id_in_raid = true
+
+[workflow.structure]
+sections = [
+  "Restatement",
+  "Why now",
+  "Root causes",
+  "Exposure timeline",
+  "Current treatment",
+  "Treatment options",
+  "Recommendation",
+  "Owner",
+  "Cross-references",
+]
+min_root_causes = 3
+min_treatment_options = 3
+require_do_nothing_option_where_applicable = true
+
+[workflow.raid_pointer_offer]
+# After write, offer to update RAID row's mitigation cell with a pointer to this file
+default_offer = true
+auto_apply = false  # never silent — always user-confirmed
+
+[workflow.red_team]
+default = "off"
+recommend_if_external_share = true
+
+[workflow.handoff]
+on_recommendation_mitigation = "pdf-create-mitigation-plan"
+on_recommendation_escalation = "pdf-decide-escalation"
+on_completion = "pdf-help"

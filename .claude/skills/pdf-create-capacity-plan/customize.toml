@@ -1,0 +1,36 @@
+[workflow]
+artifact = "03-planning/capacity-plan.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-plan"]
+
+[workflow.views]
+canonical = "matrix"
+derived = "rows"
+both_rendered_in_output = true
+reconciliation_check_required = true
+
+[workflow.standard_roles]
+items = [
+  "Delivery Manager",
+  "Tech Lead",
+  "Senior Engineer",
+  "Engineer",
+  "QA Lead",
+  "QA Engineer",
+  "Business Analyst",
+  "Designer",
+  "DevOps Engineer",
+  "Architect",
+]
+allow_custom_roles = true
+
+[workflow.fte_rules]
+decimal_allowed = true
+max_per_cell_without_comment = 5.0
+negative_disallowed = true
+
+[workflow.handoff]
+on_first_completion = "pdf-create-budget-baseline"
+on_significant_change_pct = 10
+on_significant_change_handoff = "pdf-create-budget-baseline"  # update intent
+on_update_completion = "pdf-help"

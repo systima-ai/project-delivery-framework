@@ -1,0 +1,44 @@
+[workflow]
+artifact_pattern = "07-quality/sdlc-health-cards/{date}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.sub_dimensions]
+items = [
+  "Code Quality",
+  "Unit Testing",
+  "Code Review",
+  "Knowledge Sharing",
+  "Technical Debt",
+  "Branching Strategy",
+  "Striving for Excellence",
+]
+require_all_assessed = true
+
+[workflow.output]
+summary_table_required = true
+narrative_per_subdimension_required = true
+both_views_in_same_file = true
+
+[workflow.rag]
+values = ["R", "A", "G"]
+overall_rule = "worst_of_subdimensions"
+allow_overall_override_with_justification = true
+
+[workflow.sources]
+default_mode = "ask"  # ask user for paths first
+fallback_mode = "interview"
+record_in_frontmatter = true
+
+[workflow.cadence]
+default_days = 28
+overridable_per_engagement = true
+write_next_default_to_frontmatter = true
+
+[workflow.red_team]
+default = "off"
+
+[workflow.handoff]
+on_red_subdimension = "pdf-update-raid"
+on_red_overall = "pdf-write-stakeholder-update"
+on_completion = "pdf-help"

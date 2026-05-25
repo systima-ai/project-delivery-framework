@@ -1,0 +1,16 @@
+# Engagement-level gitignore
+# Applies even if the engagement folder itself is committed (root .gitignore unwound).
+# Confidential people-data is always excluded.
+
+# Iris's people artifacts — confidential by default
+09-people/
+
+# Audit log (per-run records can include sensitive prompts)
+audit-log/
+
+# Any explicit confidential override
+*.confidential.md
+*.confidential/
+
+# Active-engagement marker is local-state only
+ACTIVE_ENGAGEMENT

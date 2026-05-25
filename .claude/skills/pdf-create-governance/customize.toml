@@ -1,0 +1,28 @@
+[workflow]
+artifact = "00-constitution/GOVERNANCE.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.candidate_forums]
+items = [
+  "Steering Committee",
+  "Status check-in",
+  "Change Control Board",
+  "Executive briefing",
+  "Quality gate review",
+  "Quarterly business review",
+]
+
+[workflow.default_decision_thresholds]
+scope_change_minor_pct = 5
+scope_change_major_owner = "Sponsor + CCB"
+budget_overrun_owner = "Sponsor + Steering"
+timeline_slip_threshold_days = 7
+quality_gate_failure_owners = ["Quality Steward", "Delivery Manager"]
+
+[workflow.escalation_levels]
+default_response_times = ["24h", "48h", "1 week"]
+
+[workflow.handoff]
+on_first_completion = "pdf-create-comms-plan"
+on_update_completion = "pdf-help"

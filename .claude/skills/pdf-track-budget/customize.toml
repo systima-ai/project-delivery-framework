@@ -1,0 +1,26 @@
+[workflow]
+artifact_patterns = [
+  "08-commercial/budget-tracker/weekly/{iso_week}.md",
+  "08-commercial/budget-tracker/monthly/{year_month}.md",
+]
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-budget-baseline"]
+
+[workflow.cadence]
+choices = ["weekly", "monthly"]
+require_explicit_choice = true
+weekly_default_period = "current_iso_week"
+monthly_default_period = "previous_month"  # closes are retrospective
+
+[workflow.variance_thresholds]
+weekly_handoff_to_margin_pct = 10
+monthly_require_variance_subsection_pct = 5
+
+[workflow.cost_categories]
+default = ["Labour", "Vendor", "Other"]
+custom_allowed_per_engagement = true
+
+[workflow.handoff]
+on_material_variance = "pdf-analyse-margin"
+on_material_forecast_revision = "pdf-create-change-request"
+on_completion = "pdf-help"

@@ -1,0 +1,41 @@
+[workflow]
+artifact_pattern = "05-governance/exec-updates/{date}-exec-summary.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = []
+recommended_preceded_by = ["pdf-weekly-status"]
+
+[workflow.length]
+target_words = 400
+hard_ceiling_words = 500
+forward_look_max_words = 80
+enforcement = "reject_on_validate_over_ceiling"
+
+[workflow.canonical_sections]
+order = [
+  "Status",
+  "Headline",
+  "What's working",
+  "What's not",
+  "Decisions needed from you",
+  "Forward look",
+]
+each_required = true
+exception = "Decisions needed from you may be 'None at this time'"
+
+[workflow.cut_order_when_over_length]
+# If over ceiling, cut in this order
+items = ["What's working bullets", "Forward look", "What's not lowest-impact"]
+
+[workflow.red_team]
+default = "on"
+required_before_finalise = true
+inline_simulation_until_skill_exists = false
+dispatch_to = "pdf-red-team"
+checks = [
+  "Where is this dishonestly optimistic?",
+  "Where is the implicit ask buried?",
+  "Which sentence would a CFO mark in red?",
+]
+
+[workflow.handoff]
+on_completion = "pdf-help"

@@ -1,0 +1,28 @@
+[workflow]
+artifact = "10-closure/retrospective.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+recommended_preceded_by = ["pdf-closure-checklist"]
+
+[workflow.formats]
+allowed = ["liked-learned-lacked-longed-for", "what-went-well", "sailboat", "5-whys"]
+default = "ask"  # user picks at invocation
+formats_file = "references/retrospective-formats.md"
+
+[workflow.sections]
+internal = true
+client_shareable = true
+single_file = true
+
+[workflow.client_section]
+require_redaction_integrity_check = true
+require_red_team_before_sharing = true
+forbid_personal_names = true
+forbid_specific_cost_figures = true
+forbid_blame_language = true
+
+[workflow.handoff]
+on_lessons_present = "pdf-capture-lessons"
+on_client_section_ready = "pdf-write-stakeholder-update"
+on_material_patterns = "pdf-create-case-study"
+on_completion = "pdf-help"

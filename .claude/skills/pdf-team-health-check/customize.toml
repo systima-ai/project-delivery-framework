@@ -1,0 +1,35 @@
+[workflow]
+artifact_pattern = "09-people/team-health-checks/{date}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.confidentiality]
+confidential = true
+frontmatter_flag = true
+refuse_individual_naming = true
+
+[workflow.dimensions]
+items = ["Morale", "Capacity", "Blockers (team)", "Growth and learning", "Team dynamics"]
+require_all_assessed = true
+
+[workflow.rag]
+values = ["R", "A", "G"]
+overall_rule = "worst_of_subdimensions"
+allow_overall_override_with_justification = true
+
+[workflow.sources]
+default_mode = "ask"
+fallback_mode = "interview"
+
+[workflow.cadence]
+default_days = 14
+overridable_per_engagement = true
+
+[workflow.red_team]
+default = "off"
+
+[workflow.handoff]
+on_amber_capacity_stale_attrition = "pdf-attrition-risk"
+on_red_morale_or_dynamics = "pdf-prep-1on1"
+on_red_overall = "pdf-weekly-status"  # add aggregate signal to next status
+on_completion = "pdf-help"

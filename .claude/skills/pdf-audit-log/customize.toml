@@ -1,0 +1,45 @@
+[workflow]
+artifact_pattern_background = "audit-log/{iso_timestamp}.jsonl"
+artifact_pattern_query_to_file = "audit-log/queries/{date}-{slug}.md"
+intents = ["query", "query-to-file", "validate"]
+background_mode = true
+background_invoked_by_other_workflows = true
+
+[workflow.background]
+write_per_run = true
+fields = [
+  "ts",
+  "skill",
+  "intent",
+  "engagement",
+  "user",
+  "prompt_hash",
+  "model",
+  "model_version",
+  "input_paths_or_inline",
+  "outputs",
+  "duration_ms",
+  "outcome",
+  "notes",
+]
+hash_prompt_only = true  # do not store full prompt content
+hash_outputs_only = true  # outputs listed by path + hash, not content
+
+[workflow.confidentiality]
+respect_confidential_artifact_flag = true
+audit_records_existence_not_content = true
+
+[workflow.query]
+default_intent = "query"
+filters = ["time_range", "skill", "artifact_glob", "outcome"]
+summary_max_detail_rows = 10
+forbid_cross_engagement_query = true  # v2 candidate: pdf-portfolio
+
+[workflow.gitignore]
+audit_log_excluded_by_default = true
+
+[workflow.handoff]
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"

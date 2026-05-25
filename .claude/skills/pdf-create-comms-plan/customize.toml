@@ -1,0 +1,21 @@
+[workflow]
+artifact = "00-constitution/COMMS-PLAN.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter", "pdf-create-governance"]
+
+[workflow.candidate_rituals]
+items = [
+  { name = "Daily standup", frequency_default = "Daily 09:30", produced_by = "—" },
+  { name = "Standup digest", frequency_default = "Daily", produced_by = "pdf-summarize-standup" },
+  { name = "Weekly status", frequency_default = "Friday", produced_by = "pdf-weekly-status" },
+  { name = "Steering", frequency_default = "Fortnightly", produced_by = "pdf-prep-steering" },
+  { name = "Exec update", frequency_default = "Monthly", produced_by = "pdf-write-exec-summary" },
+  { name = "Quarterly review", frequency_default = "Quarterly", produced_by = "pdf-prep-steering" },
+]
+
+[workflow.candidate_channels]
+items = ["Email", "Teams / Slack", "Repo / vault", "Phone / video"]
+
+[workflow.handoff]
+on_first_completion = "pdf-create-kickoff-deck"
+on_update_completion = "pdf-help"

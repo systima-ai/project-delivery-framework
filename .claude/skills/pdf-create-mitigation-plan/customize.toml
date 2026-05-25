@@ -1,0 +1,25 @@
+[workflow]
+artifact_pattern = "06-risk-change/mitigation-plans/{date}-{risk_id}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.action_required_fields]
+# Every action row must have all of these. Validation rejects blanks.
+fields = ["action", "owner", "deadline", "trigger_to_revisit"]
+
+[workflow.risk_status_transition]
+# Updating RAID as a side effect
+target_status = "in-mitigation"
+also_update_mitigation_cell = true
+also_append_raid_history = true
+
+[workflow.review]
+default_cadence = "fortnightly"
+allowed_cadences = ["weekly", "fortnightly", "monthly", "on-trigger"]
+
+[workflow.red_team]
+default = "off"
+
+[workflow.handoff]
+on_fallback_includes_escalation = "pdf-decide-escalation"
+on_completion = "pdf-help"

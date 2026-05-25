@@ -1,0 +1,37 @@
+[workflow]
+artifact_pattern = "09-people/ramp-plans/{date}-{person_slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.confidentiality]
+confidential = true
+frontmatter_flag = true
+
+[workflow.default_phases]
+phases = [
+  { name = "Orientation",                   weeks = 1 },
+  { name = "Shadowing",                     weeks = 2 },
+  { name = "Contributing under guidance",   weeks = 3 },
+  { name = "Independent contribution",      weeks = 2 },
+]
+overridable_per_engagement = true
+
+[workflow.required_fields]
+joiner_name = true
+joiner_role = true
+buddy_name = true
+start_date = true
+metric_targets = true
+
+[workflow.statuses]
+allowed = ["in-progress", "complete", "abandoned"]
+default = "in-progress"
+
+[workflow.handoff]
+on_create = "pdf-create-capacity-plan"  # update intent — add joiner to matrix
+on_complete = "pdf-prep-1on1"
+on_red_ramp_signal = "pdf-attrition-risk"
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"

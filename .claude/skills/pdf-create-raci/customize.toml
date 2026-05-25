@@ -1,0 +1,29 @@
+[workflow]
+artifact = "00-constitution/RACI.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.rules]
+exactly_one_accountable = true
+at_least_one_responsible = true
+no_self_overlap = true  # A and R cannot be the same person on the same row
+require_stakeholder_entry = true
+
+[workflow.workstream_suggestions]
+# Proposed at create-time; user can edit, add, remove
+items = [
+  "Sprint planning",
+  "Production deployments",
+  "Scope changes",
+  "Quality gate sign-off",
+  "Budget reallocation within phase",
+  "Risk acceptance",
+  "Vendor / sub-contractor management",
+  "Incident response",
+  "Stakeholder communications",
+  "Engagement close-out and acceptance",
+]
+
+[workflow.handoff]
+on_first_completion = "pdf-create-governance"
+on_update_completion = "pdf-help"

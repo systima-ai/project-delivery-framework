@@ -1,0 +1,46 @@
+[workflow]
+artifact_pattern = "05-governance/steering/{date}-steering.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter", "pdf-create-governance"]
+recommended_preceded_by = ["pdf-weekly-status"]
+slide_separator = "---"
+
+[workflow.canonical_slides]
+order = [
+  "Title",
+  "Headline + status",
+  "Decisions sought today",
+  "Reconciliation to success criteria",
+  "What moved",
+  "What slipped",
+  "Risk movement",
+  "Issues and blockers",
+  "Decisions made since last steering",
+  "Change requests on the table",
+  "Velocity and budget signal",
+  "Forward look",
+  "Asks",
+  "Appendix pointer",
+]
+
+[workflow.sources]
+weekly_statuses_glob = "04-execution/weekly-status/*.md"
+weekly_statuses_lookback = 4
+raid = "04-execution/RAID.md"
+decision_log = "decision-log.md"
+change_requests_glob = "06-risk-change/change-requests/*.md"
+velocity_glob = "04-execution/velocity/*.md"
+charter = "00-constitution/CHARTER.md"
+
+[workflow.speaker_notes]
+format = "marp"
+required_on_every_slide = true
+
+[workflow.red_team]
+default = "on"
+required_before_finalise = true
+inline_simulation_until_skill_exists = false
+dispatch_to = "pdf-red-team"
+
+[workflow.handoff]
+on_completion = "pdf-write-exec-summary"

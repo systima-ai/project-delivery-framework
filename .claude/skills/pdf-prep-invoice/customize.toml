@@ -1,0 +1,31 @@
+[workflow]
+artifact_pattern = "08-commercial/invoices/{date}-{invoice_id}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-budget-baseline"]
+recommended_preceded_by = ["pdf-track-budget"]
+output_scope = "backup_pack_only"  # not the invoice itself
+
+[workflow.id_prefix]
+invoice = "INV"
+
+[workflow.evidence_required_by_model]
+TM = ["timesheet_data"]
+FP = ["acceptance_evidence", "approver_signoff"]
+Mixed = ["timesheet_data", "acceptance_evidence", "approver_signoff"]
+Pass_through = ["vendor_invoice", "receipt_path"]
+
+[workflow.reconciliation_rules]
+net_plus_vat_equals_gross = true
+labour_sum_matches_reconciliation = true
+require_baseline_current = true
+variance_threshold_pct_for_explanation = 5
+
+[workflow.refusals]
+refuse_fp_without_signed_evidence = true
+refuse_mixed_without_component_split = true
+refuse_period_without_monthly_close = true
+refuse_passthrough_markup_hidden = true
+
+[workflow.handoff]
+on_material_variance = "pdf-track-budget"  # monthly close
+on_completion = "pdf-help"

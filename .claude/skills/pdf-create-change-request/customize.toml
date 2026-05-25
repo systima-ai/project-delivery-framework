@@ -1,0 +1,72 @@
+[workflow]
+artifact_pattern = "06-risk-change/change-requests/{date}-{id}-{slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+id_prefix = "CR"
+
+[workflow.taxonomy]
+granular_dimensions = ["Architectural", "Commercial", "Governance", "External"]
+granular_levels = ["none", "minor", "material", "major"]
+classic_dimensions = ["Scope", "Time", "Cost", "Quality", "Risk"]
+elicitation_order = ["Architectural", "Commercial", "Governance", "External"]
+
+[workflow.inference_rules]
+# These are encoded in references/change-impact-taxonomy.md.
+# Restated here in machine-readable form for the workflow to apply.
+#
+# Each rule: when <granular condition>, infer <classic effect>
+[[workflow.inference_rules.rule]]
+when = "Architectural >= material"
+infer_scope = "material"
+infer_time = "material"
+infer_quality = "material"
+infer_risk = "material"
+
+[[workflow.inference_rules.rule]]
+when = "Architectural == major"
+infer_scope = "major"
+infer_quality = "major"
+
+[[workflow.inference_rules.rule]]
+when = "Commercial >= minor"
+infer_cost_min = "minor"
+
+[[workflow.inference_rules.rule]]
+when = "Commercial >= material"
+infer_cost_min = "material"
+infer_risk_min = "minor"
+
+[[workflow.inference_rules.rule]]
+when = "Governance >= material"
+infer_risk_min = "minor"
+
+[[workflow.inference_rules.rule]]
+when = "External >= material"
+infer_scope_min = "material"
+infer_time_min = "material"
+infer_risk_min = "material"
+
+[[workflow.inference_rules.rule]]
+when = "External == major"
+infer_risk = "major"
+
+[workflow.options]
+min_count = 2
+require_do_nothing_option = true
+require_trade_off_statement = true
+
+[workflow.routing]
+read_from = "00-constitution/GOVERNANCE.md"
+section = "Decision-rights matrix"
+
+[workflow.red_team]
+default = "on"
+required_before_status_beyond_draft = true
+inline_simulation_until_skill_exists = false
+dispatch_to = "pdf-red-team"
+
+[workflow.handoff]
+on_commercial_dimension_present = "pdf-create-change-order"
+on_above_the_line_routing = "pdf-decide-escalation"
+on_approval_with_charter_impact = "pdf-create-charter"  # update intent
+on_completion = "pdf-help"

@@ -1,0 +1,20 @@
+[workflow]
+artifact = "00-constitution/CHARTER.md"
+intents = ["create", "update", "validate", "dump-merge"]
+field_guide = "references/charter-fields-guide.md"
+validation_checklist = "references/charter-validation.md"
+
+[workflow.red_team]
+default = "off"
+recommend_on_first_finalisation = true
+required_for_sections = ["Scope", "Constraints and Assumptions", "Compliance Regimes"]
+required_when_changing = ["scope", "budget", "timeline", "compliance"]
+
+[workflow.shard]
+threshold_h2_sections = 10
+prompt_at_threshold = true
+shard_target = "00-constitution/charter/"
+
+[workflow.handoff]
+on_first_completion = "pdf-create-raci"
+on_update_completion = "pdf-help"

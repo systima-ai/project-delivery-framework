@@ -1,0 +1,13 @@
+# pdf-engagement-init customisation
+
+[engagement_init]
+engagements_root = "_pdf-output/engagements"
+template_path = "assets/engagement-template"
+active_engagement_marker = "ACTIVE_ENGAGEMENT"
+created_by_default = "systima"
+slug_pattern = "^[a-z0-9]+(-[a-z0-9]+)+$"
+
+[engagement_init.handoff]
+fresh_next_skill = "pdf-create-charter"
+migrate_next_skill = "pdf-agent-mobilizer"
+migrate_next_intent = "dump"

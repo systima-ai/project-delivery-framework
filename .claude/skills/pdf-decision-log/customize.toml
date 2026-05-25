@@ -1,0 +1,34 @@
+[workflow]
+artifact_index = "decision-log.md"
+artifact_detail_pattern = "{stage}/decisions/DEC-{id}-{slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = []
+id_prefix = "DEC"
+
+[workflow.stage_routing]
+default_when_unclear = "00-constitution"
+allowed_stages = ["00-constitution", "01-shaping", "02-mobilization", "03-planning", "04-execution", "05-governance", "06-risk-change", "07-quality", "08-commercial", "09-people", "10-closure"]
+auto_propose_from_substance = true
+require_user_confirmation = true
+
+[workflow.required_fields]
+items = ["what_decided", "decided_by", "date", "context", "options_considered", "rationale", "reversibility", "related_artifacts"]
+all_required = true
+
+[workflow.rules]
+min_options_considered = 2
+decided_by_single_named_individual = true
+require_trade_off_in_rationale = true
+
+[workflow.immutability]
+default_immutable = true
+allow_history_appends = true
+reversals_as_new_decisions = true
+
+[workflow.handoff]
+on_scope_budget_timeline_compliance_change = "pdf-create-change-request"
+on_charter_impact = "pdf-create-charter"  # update intent
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"

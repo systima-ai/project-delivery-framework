@@ -1,0 +1,33 @@
+[workflow]
+artifact_pattern = "04-execution/weekly-status/{iso_week}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.format]
+# Teams/Slack-paste-friendly: bullets, not tables.
+disallow_tables_in_body = true
+headline_max_words = 25
+status_values = ["GREEN", "AMBER", "RED"]
+next_week_max_priorities = 3
+asks_required_fields = ["from", "need", "by_when"]
+
+[workflow.sources]
+# Read in this order; later items can be empty
+charter = "00-constitution/CHARTER.md"
+raid = "04-execution/RAID.md"
+decision_log = "decision-log.md"
+standups_glob = "04-execution/standups/*.md"
+velocity_glob = "04-execution/velocity/*.md"
+lookback_days = 7
+
+[workflow.status_log]
+# After every weekly write, also append a one-line index entry
+append_to = "04-execution/STATUS-LOG.md"
+
+[workflow.red_team]
+default = "off"
+# Override per engagement in .pdf-config.toml if needed
+allow_per_engagement_override = true
+
+[workflow.handoff]
+on_completion = "pdf-prep-steering"  # if Helena is available; otherwise pdf-help

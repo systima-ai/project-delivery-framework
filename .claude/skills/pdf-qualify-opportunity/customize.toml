@@ -1,0 +1,29 @@
+[workflow]
+artifact = "01-shaping/qualification-memo.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = []
+framework = "MEDDIC"
+
+[workflow.meddic_elements]
+items = ["Metrics", "Economic Buyer", "Decision Criteria", "Decision Process", "Identify Pain", "Champion"]
+ratings = ["Strong", "Weak", "Unknown"]
+
+[workflow.recommendation_thresholds]
+go_min_strong = 4
+go_max_unknown = 1
+go_with_conditions_min_strong = 3
+no_go_max_strong = 2
+
+[workflow.refusals]
+refuse_go_without_champion = true
+refuse_no_go_without_rationale = true
+refuse_all_strong_with_no_names = true
+
+[workflow.handoff]
+on_go = "pdf-shape-opportunity"
+on_no_go = "pdf-decision-log"  # log the rationale
+on_qualify_further = "pdf-help"
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"

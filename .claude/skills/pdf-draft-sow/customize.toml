@@ -1,0 +1,62 @@
+[workflow]
+artifact = "01-shaping/sow-draft.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-shape-opportunity", "pdf-estimate-rom"]
+recommended_preceded_by = ["pdf-qualify-opportunity"]
+
+[workflow.template]
+basis_options = ["firm-template", "generic"]
+ask_at_create = true
+if_firm_template_use_its_structure = true
+
+[workflow.canonical_sections]
+items = [
+  "Parties",
+  "Background and purpose",
+  "Scope of services",
+  "Out of scope",
+  "Deliverables",
+  "Acceptance criteria",
+  "Governance",
+  "Commercial",
+  "Timeline",
+  "Assumptions",
+  "Dependencies on client",
+  "Change control",
+  "Term and termination",
+  "Confidentiality / IP",
+  "Liability",
+  "Warranties",
+  "Signatures",
+]
+require_reviewer_notes_per_section = true
+
+[workflow.statuses]
+allowed = ["draft", "in-review", "redline-received", "redlines-applied", "final", "signed"]
+default = "draft"
+
+[workflow.refusals]
+refuse_subjective_acceptance_criteria = true
+refuse_single_point_commercial = true
+refuse_empty_out_of_scope = true
+refuse_assumption_without_consequence = true
+refuse_no_change_control = true
+
+[workflow.red_team]
+default = "on"
+required_before_status_beyond_draft = true
+inline_simulation_until_skill_exists = false
+dispatch_to = "pdf-red-team"
+checks = [
+  "Which clause would the most adversarial client lawyer challenge?",
+  "Which acceptance criterion would devolve into argument?",
+  "Where am I assuming we can renegotiate later?",
+  "Which assumption is sized but not commercially protected?",
+  "Where am I being deliberately vague to close the deal?",
+  "Is change-control tight enough to prevent creep without becoming a battle?",
+]
+
+[workflow.handoff]
+on_signed = "pdf-create-charter"  # Marcus
+on_redlines_change_scope = "pdf-shape-opportunity"  # update intent
+on_completion = "pdf-help"

@@ -1,0 +1,36 @@
+# Files to exclude from the published npm package
+# (package.json `files` is the allow-list; this is the deny-list overlay)
+
+# Engagement output is user data — never ship it
+_pdf-output/
+
+# Active-engagement marker is per-machine state
+ACTIVE_ENGAGEMENT
+
+# Dev / editor artefacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+
+# Git
+.git/
+.gitignore
+
+# Anything explicitly confidential
+*.confidential.md
+*.confidential/
+
+# Test scratch
+.test/
+test-output/

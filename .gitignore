@@ -1,0 +1,33 @@
+# PDF — gitignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+
+# Engagement output is private by default.
+# Comment this line out if you want to commit engagement artifacts to git
+# (useful for personal audit trail; never push to a public remote).
+_pdf-output/engagements/*/
+!_pdf-output/engagements/.gitkeep
+_pdf-output/practice/*/
+!_pdf-output/practice/.gitkeep
+
+# Active-engagement marker is local state
+ACTIVE_ENGAGEMENT
+
+# Anything explicitly marked confidential
+*.confidential.md
+*.confidential/

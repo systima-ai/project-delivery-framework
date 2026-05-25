@@ -1,0 +1,31 @@
+[workflow]
+artifact_pattern = "{target_artifact_dir}/{target_artifact_name}.red-team.md"
+intents = ["review", "review-cynical", "review-edge", "review-acceptance", "validate", "dump-merge"]
+preceded_by = []
+default_modes = ["cynical", "edge-case", "acceptance"]
+
+[workflow.severity_levels]
+allowed = ["low", "medium", "high"]
+
+[workflow.recommendation_logic]
+pass_requires_zero_high = true
+pass_requires_all_acceptance = true
+block_threshold_high_severity = 3
+
+[workflow.frontmatter_update]
+require_user_confirmation = true
+never_silent = true
+
+[workflow.checks_library]
+file = "references/red-team-checks.md"
+
+[workflow.refusals]
+refuse_zero_findings_without_confirmation = true
+refuse_pass_with_high_findings = true
+refuse_silent_frontmatter_update = true
+refuse_unknown_artifact_type = true
+
+[workflow.handoff]
+on_pass = "pdf-help"
+on_fix_and_rerun = "<artifact_workflow>"  # dispatch to the artifact's own workflow update intent
+on_block = "pdf-help"

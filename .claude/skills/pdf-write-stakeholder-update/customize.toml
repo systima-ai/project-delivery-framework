@@ -1,0 +1,34 @@
+[workflow]
+artifact_pattern = "05-governance/stakeholder-updates/{date}-{role_slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+recommended_preceded_by = ["pdf-weekly-status"]
+
+[workflow.archetypes]
+# Allowed values for the audience_archetype frontmatter field
+allowed = [
+  "CIO",
+  "CTO",
+  "CFO",
+  "COO",
+  "Client-PM",
+  "Engineering-Lead",
+  "Legal-Compliance",
+  "Board-NED",
+  "Executive-Sponsor",
+]
+profiles_file = "references/audience-profiles.md"
+
+[workflow.composition]
+require_one_file_per_archetype = true
+forbid_archetype_lead_with_overlap = true
+
+[workflow.red_team]
+default = "on"
+required_before_finalise = true
+inline_simulation_until_skill_exists = false
+dispatch_to = "pdf-red-team"
+per_file = true
+
+[workflow.handoff]
+on_completion = "pdf-help"

@@ -1,0 +1,27 @@
+[workflow]
+artifact = "03-planning/estimate-challenge-log.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = []
+append_only = true
+
+[workflow.modes]
+allowed = ["pre-mortem", "red-team"]
+default = "ask"  # refuse to default; user must pick
+modes_file = "references/estimate-challenge-modes.md"
+
+[workflow.outcome_rules]
+prefer_ranges_over_points = true
+require_revised_estimate = true
+require_confidence_change_note = true
+
+[workflow.action_item_required_fields]
+fields = ["owner", "date"]
+
+[workflow.cross_skill_offers]
+on_finding_warrants_risk = "pdf-update-raid"
+on_significant_revision_pct = 15
+on_significant_revision_handoff = "pdf-create-change-request"
+on_action_item_needs_decision = "pdf-decision-log"
+
+[workflow.handoff]
+on_completion = "pdf-help"

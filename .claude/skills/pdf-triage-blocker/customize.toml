@@ -1,0 +1,27 @@
+[workflow]
+artifact_pattern = "04-execution/blockers/{date}-{slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = []
+
+[workflow.id_prefix]
+blocker = "BLK"
+
+[workflow.cross_artifact]
+# Every blocker creates a pointer Issue in RAID
+also_append_to_raid = true
+raid_section = "Issues"
+
+[workflow.slug]
+max_length = 40
+case = "lower"
+separator = "-"
+
+[workflow.escalation]
+# Read these from GOVERNANCE.md
+auto_populate_levels_from_governance = true
+short_deadline_offer_helena_hours = 48
+
+[workflow.handoff]
+on_completion = "pdf-help"
+on_escalate = "pdf-write-escalation-memo"
+on_resolve = "pdf-help"

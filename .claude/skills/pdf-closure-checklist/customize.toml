@@ -1,0 +1,47 @@
+[workflow]
+artifact = "10-closure/closure-checklist.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.operational_core]
+required = true
+items = [
+  "Deliverables signed off",
+  "IP transferred",
+  "Access revoked",
+  "Final invoiced",
+  "Knowledge transferred",
+  "Repos archived",
+  "Environments decommissioned",
+  "Support handed over",
+  "Decision-log frozen",
+  "RAID closed",
+]
+all_required_for_closed_state = true
+
+[workflow.relational_extensions]
+opt_in = true
+items = [
+  "Commercial reconciliation",
+  "Change orders settled",
+  "Reference requested",
+  "NPS / feedback captured",
+  "Future opportunities flagged",
+  "Alumni outreach",
+  "Retrospective shared with client",
+]
+
+[workflow.wind_down_states]
+allowed = ["imminent", "just-delivered", "in-handover", "closed"]
+
+[workflow.refusals]
+refuse_ticked_without_evidence = true
+refuse_closed_state_with_unticked_core = true
+
+[workflow.handoff]
+on_operational_core_complete = "pdf-run-retrospective"
+on_relational_complete = "pdf-create-case-study"
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"

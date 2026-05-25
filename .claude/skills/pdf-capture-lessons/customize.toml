@@ -1,0 +1,26 @@
+[workflow]
+artifact_engagement = "10-closure/lessons-learned.md"
+artifact_practice_pattern = "_pdf-output/practice/lessons-learned/{year}-{engagement_slug}-{topic_slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-run-retrospective"]
+
+[workflow.dual_write]
+writes_outside_engagement_folder = true
+practice_library_root = "_pdf-output/practice/lessons-learned/"
+per_lesson_practice_file = true
+ask_per_lesson_propagation = true
+
+[workflow.lesson_required_sections]
+items = ["Situation", "Learning", "Behavioural change", "Recall trigger"]
+recall_trigger_required = true
+
+[workflow.refusals]
+refuse_generic_lessons = true
+refuse_no_recall_trigger = true
+refuse_all_engagement_only_without_reason = true
+
+[workflow.handoff]
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"

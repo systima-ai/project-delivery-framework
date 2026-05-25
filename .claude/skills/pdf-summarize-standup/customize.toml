@@ -1,0 +1,22 @@
+[workflow]
+artifact_pattern = "04-execution/standups/{date}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = []  # standups can begin pre-charter
+
+[workflow.input]
+modes = ["paste", "file"]
+file_formats = ["txt", "md", "json", "vtt", "srt"]
+
+[workflow.action_item_required_fields]
+who = true
+what = true
+when = true
+
+[workflow.cross_skill_offers]
+# After extraction, the workflow offers to dispatch to these
+blocker_handler = "pdf-triage-blocker"
+decision_handler = "pdf-decision-log"
+ask_handler = "pdf-weekly-status"  # add to next status's Asks section
+
+[workflow.handoff]
+on_completion = "pdf-help"

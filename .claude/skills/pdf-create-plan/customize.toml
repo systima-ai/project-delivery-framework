@@ -1,0 +1,33 @@
+[workflow]
+artifact = "03-planning/plan.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+recommended_preceded_by = ["pdf-create-governance"]
+
+[workflow.visualisation]
+gantt_required = true
+phase_summary_table_required = true
+mermaid_critical_path_tag = "crit"
+
+[workflow.phases]
+target_count_min = 3
+target_count_max = 6
+allow_outside_range = true  # but prompt for justification
+
+[workflow.id_prefixes]
+phase = "P"
+milestone = "M"
+
+[workflow.milestone_required_fields]
+fields = ["phase", "date", "critical_path", "acceptance_gate", "approver"]
+
+[workflow.acceptance_gate]
+require_artifact_or_explicit_none = true
+
+[workflow.critical_path]
+must_be_named_explicitly = true
+
+[workflow.handoff]
+on_end_date_change = "pdf-create-change-request"
+on_first_completion = "pdf-create-capacity-plan"
+on_update_completion = "pdf-help"

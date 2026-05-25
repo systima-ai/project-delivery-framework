@@ -1,0 +1,21 @@
+[workflow]
+artifact_pattern = "08-commercial/commercial-model-reviews/{date}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter", "pdf-create-budget-baseline"]
+append_only = true
+
+[workflow.models]
+canonical = ["T&M", "Fixed-Price", "Capacity", "Outcome"]
+allow_hybrid = true
+
+[workflow.recommendations]
+allowed = ["stay", "switch-to-tm", "switch-to-fp", "switch-to-capacity", "switch-to-outcome", "switch-to-hybrid"]
+
+[workflow.assessment_dimensions]
+fields = ["fit", "margin_implication", "client_acceptability", "operational_complexity"]
+all_four_models_required = true
+
+[workflow.handoff]
+on_switch = "pdf-create-change-request"
+on_stay = "pdf-decision-log"  # not yet built; interim: append to decision-log.md directly
+on_completion = "pdf-help"

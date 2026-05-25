@@ -1,0 +1,40 @@
+[workflow]
+artifact = "09-people/attrition-watch.md"
+intents = ["append", "update", "validate", "dump-merge"]
+preceded_by = []
+default_intent = "append"
+
+[workflow.confidentiality]
+confidential = true
+frontmatter_flag = true
+gitignore_excluded = true
+
+[workflow.scoring]
+scale = [1, 2, 3, 4, 5]
+require_action_per_scored_person = true
+allow_user_override_of_proposed_score = true
+
+[workflow.contributing_factors]
+items = [
+  "Workload (sustainable?)",
+  "Growth (stalled?)",
+  "Compensation (perceived fair?)",
+  "Manager relationship",
+  "Role fit",
+  "Life events (visible?)",
+  "Market signals",
+  "Recent direct feedback / hints",
+]
+
+[workflow.actions]
+allowed = ["do nothing", "informal check", "formal check", "intervention"]
+score_5_forbidden_actions = ["do nothing"]
+
+[workflow.handoff]
+on_score_4_or_5 = "pdf-prep-1on1"
+on_score_5 = "pdf-decide-escalation"
+on_sustained_workload_growth = "pdf-team-health-check"  # next aggregate
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"

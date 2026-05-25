@@ -1,0 +1,25 @@
+[workflow]
+artifact_pattern = "04-execution/velocity/{iso_week}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = []
+recommended_preceded_by = ["pdf-create-budget-baseline"]
+
+[workflow.csv_columns]
+# Override per-engagement; these are the defaults
+sprint = ["Sprint", "Iteration"]
+completed = ["Story Points Completed", "Completed", "Done"]
+committed = ["Story Points Committed", "Committed", "Planned"]
+date = ["Sprint End Date", "End Date"]
+
+[workflow.trend]
+moving_average_sprints = 3
+min_sprints_for_trend = 2
+
+[workflow.precision_rules]
+# Hard rule: output precision matches input
+no_quantitative_output_from_qualitative_input = true
+mark_estimates_as_estimates = true
+
+[workflow.handoff]
+on_completion = "pdf-help"
+on_recommend_steering = "pdf-prep-steering"

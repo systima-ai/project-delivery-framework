@@ -1,0 +1,43 @@
+[workflow]
+artifact_pattern = "09-people/performance-conversations/{date}-{person_slug}-{topic_slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = []
+
+[workflow.confidentiality]
+confidential = true
+frontmatter_flag = true
+strict = true  # this file is the most sensitive in PDF
+
+[workflow.model]
+primary = "radical_candor"
+sub_method = "SBI"  # used for language structure within Radical Candor frame
+reference = "references/radical-candor-guide.md"
+
+[workflow.required_sections]
+items = [
+  "Radical Candor quadrant assessment",
+  "SBI",
+  "Desired outcome",
+  "Anticipated reactions",
+  "Delivery plan",
+  "What you do NOT want to do",
+]
+all_required = true
+
+[workflow.integrity_check]
+checks = [
+  "SBI is specific (no 'in general')",
+  "Impact is framed for them not just for you",
+  "Reactions table reveals optimism bias",
+  "Opener is honest",
+]
+
+[workflow.handoff]
+on_exit_intent_topic = "pdf-attrition-risk"
+on_hr_involvement = "log_in_who_else_knows"
+on_existing_1on1_cadence = "pdf-prep-1on1"
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"
+share_tone_check_on_request = true

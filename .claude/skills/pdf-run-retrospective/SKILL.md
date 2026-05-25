@@ -1,0 +1,180 @@
+---
+name: pdf-run-retrospective
+description: Compose an engagement retrospective with two sections in one file — internal version (above the line, full honesty) + client-shareable version (below the line, redacted). User picks the retrospective format. Use at the end of an engagement, or after a phase boundary.
+---
+
+# Retrospective workflow
+
+Produces `_pdf-output/engagements/{active}/10-closure/retrospective.md`. **One file**, two clearly-marked sections — internal (full honesty) above the line, client-shareable (redacted) below.
+
+Per Felix's principle 2 — honest internal first, client-version second.
+
+See `references/retrospective-formats.md` for the supported formats and when each fits.
+
+## Preconditions
+
+- Active engagement
+- Ideally `pdf-closure-checklist` operational core is at ≥ 80% (you can run a phase-boundary retro earlier, but the framework's defaults assume engagement-end retro)
+
+## Intent: create
+
+1. **Choose format.** *"Which retrospective format? Liked/Learned/Lacked/Longed-for; What Went Well / What Didn't / What to Change; Sailboat (Wind/Anchors/Rocks); or 5-Whys-style cause-deep-dive?"* User picks; defaults exist in `customize.toml`.
+2. **Walk the chosen format.** Each format has its own structured prompts (see `references/retrospective-formats.md`). For all formats:
+   - Capture observations specific and named
+   - Distinguish what (observation) from why (cause) from so-what (implication / lesson)
+   - Avoid hindsight bias dressed as foresight ("we should have known")
+3. **Identify lessons.** As findings accumulate, the workflow asks: *"Which of these should be captured as a lesson — i.e. something that would change behaviour on the next engagement?"*
+4. **Compose the internal section first.** Full honesty: name specific moments, specific decisions, specific cost. Use real names of people / vendors / clients in this section.
+5. **Generate the client-shareable section as a redacted derivative.** The workflow walks each internal finding and offers a redacted version:
+   - Remove specific cost figures or replace with ranges
+   - Remove names of specific individuals (use roles)
+   - Remove internal politics
+   - Remove anything that signals "we made a serious mistake" unless it's already publicly known
+   - Preserve the substantive lesson without the diagnostic specifics
+
+6. **Compose:**
+
+```markdown
+---
+artifact_type: retrospective
+engagement: <slug>
+date: <YYYY-MM-DD>
+format: <liked-learned-lacked-longed-for | what-went-well | sailboat | 5-whys>
+client_section_status: <draft | reviewed | shared>
+client_section_shared_date: <YYYY-MM-DD or "not-yet">
+generated_by: pdf-run-retrospective
+red_teamed_client_section: false
+---
+
+# Retrospective — <Engagement name> — <date>
+
+> Two-section document. Internal version above the line; client-shareable version below.
+> The internal version is the canonical record. The client-shareable version is derived from it.
+
+---
+
+## Internal version (full honesty — do not share)
+
+### What we observed
+
+(Format-dependent sections.)
+
+#### Format: <chosen>
+
+##### <Section per format — e.g. "Liked">
+
+- <specific observation>
+- <specific observation>
+
+##### <Section — e.g. "Learned">
+
+(...)
+
+(Etc. per the chosen format's sections.)
+
+### Material decisions and their consequences
+
+(Decisions made during the engagement, looking back at how they played out. Specific.)
+
+- <decision> → <outcome> → <lesson, if any>
+
+### People observations (internal-only)
+
+(Brief; names allowed here. What worked in the team shape; what to do differently.)
+
+- <observation>
+
+### Lessons to propagate
+
+(Lessons that should go into `pdf-capture-lessons` and thus the practice library.)
+
+1. <lesson — one paragraph; the why; the next-time-different>
+2. <lesson>
+
+---
+
+## Client-shareable version (redacted; only this section travels outside)
+
+> The internal version above is the canonical record. This section has been redacted for sharing with the client. Cost specifics, individual names, and internal political detail removed; lessons preserved.
+
+### What went well
+
+- <redacted observation — uses roles not names; uses ranges not specifics>
+- ...
+
+### What we'd do differently
+
+- <redacted observation>
+- ...
+
+### What we'd ask of the client next time
+
+(Constructive. Not blame. Things that would have helped delivery succeed faster / cleaner.)
+
+- <ask>
+- ...
+
+### Reflections on the partnership
+
+(One paragraph. Honest but kind. Suitable for a client sponsor to read and pass around.)
+
+---
+
+## Redaction integrity check (run before sharing)
+
+- [ ] No specific cost figures in the client section
+- [ ] No individual names in the client section (roles only)
+- [ ] No internal political content
+- [ ] No statements that could be misread as blame
+- [ ] No content that contradicts what's been said to the client during the engagement
+- [ ] Frontmatter `red_teamed_client_section: true` before sharing
+
+---
+
+_Generated by `pdf-run-retrospective`._
+```
+
+7. **Run light red-team on the client-shareable section.** Not the full red-team gate — just the redaction integrity check above. The workflow walks each item and asks the user to confirm.
+
+8. **Cross-skill side effects.**
+   - "Lessons to propagate" → strongly recommend `pdf-capture-lessons` to propagate to the practice library.
+   - Client-shareable section ready → offer Helena (`pdf-write-stakeholder-update` for the client sponsor) to wrap it in a covering message.
+   - Material patterns observed → may feed `pdf-create-case-study`.
+
+9. **Write.**
+
+## Intent: update
+
+1. Common updates: add observations after a follow-up conversation; update the client-shareable status after sharing.
+2. The internal section is append-only; new observations are added but old ones don't disappear.
+3. The client-shareable section can be re-redacted; the redaction history is preserved.
+
+## Intent: validate
+
+- [ ] Frontmatter complete; format named
+- [ ] Internal section non-empty
+- [ ] Client-shareable section present (even if status is "draft")
+- [ ] If `client_section_status: shared`: redaction integrity checklist all ticked AND `red_teamed_client_section: true`
+- [ ] At least one "Lessons to propagate" entry (a retro with no lessons is a retro that wasn't done thoroughly)
+
+## Intent: dump-merge
+
+Accept dumped material (raw retro meeting notes, Miro-board export, client debrief notes). Map to chosen format; structure into internal section first; then derive redacted client section.
+
+## Anti-patterns to refuse
+
+- **Identical internal and client-shareable sections.** Refuse. If the redaction produced no changes, either the retro was uncomfortably tame or the redaction was skipped.
+- **Client section that names blame.** Validation flags. The client section is suitable for the client sponsor; blame language is not.
+- **Lessons section empty.** Refuse. A retro with zero lessons did not happen properly.
+- **Personal names in client section.** Validation flags every named person in the client section and asks if they should be roles instead.
+
+## Red-team posture
+
+- **Internal section:** off.
+- **Client-shareable section:** light red-team (the redaction integrity checklist) before status moves to `shared`.
+
+## Reference
+
+- `references/retrospective-formats.md` — formats and when each fits
+- `ARCHITECTURE.md` §6.10
+- Felix's principle 2 (honest internal first; client-version second)

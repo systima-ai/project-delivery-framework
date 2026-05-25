@@ -1,0 +1,23 @@
+# pdf-help customisation
+
+[help]
+csv_path = "_pdf/_config/pdf-help.csv"
+engagements_root = "_pdf-output/engagements"
+active_engagement_marker = "ACTIVE_ENGAGEMENT"
+
+[help.report]
+max_then_items = 3
+max_optional_items = 3
+max_blocked_items = 5
+show_planned_skills = true
+
+[help.high_stakes_globs]
+# Artifacts whose frontmatter should always show red_teamed: true.
+# Override per-engagement by editing the engagement's own .pdf-config.toml.
+patterns = [
+  "05-governance/**/*.md",
+  "06-risk-change/change-requests/*.md",
+  "01-shaping/rom-estimate.md",
+  "01-shaping/sow-draft.md",
+  "10-closure/case-study.md",
+]

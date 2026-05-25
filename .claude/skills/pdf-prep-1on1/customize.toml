@@ -1,0 +1,31 @@
+[workflow]
+artifact_pattern = "09-people/1on1-notes/{person_slug}.md"
+intents = ["append", "update", "validate", "dump-merge"]
+preceded_by = []
+default_intent = "append"
+file_model = "cumulative_per_person"
+
+[workflow.confidentiality]
+confidential = true
+frontmatter_flag = true
+
+[workflow.entry_structure]
+sections = [
+  "Carrying over from last time",
+  "What's likely on their mind",
+  "What you want to ask",
+  "One thing not to forget",
+  "Plan after the 1:1",
+]
+prepend_new_entries = true
+
+[workflow.cross_skill]
+flag_attrition_score_4_plus = true
+offer_perf_conversation_on_difficult_topic = true
+
+[workflow.handoff]
+on_difficult_topic = "pdf-prep-performance-conversation"
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"

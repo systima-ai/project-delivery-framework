@@ -1,0 +1,25 @@
+[workflow]
+artifact_pattern = null  # elicit doesn't own an artifact; it dispatches
+intents = ["elicit", "elicit-mandatory-only", "elicit-by-section", "dump-merge"]
+preceded_by = []
+
+[workflow.dispatch_model]
+direct_writes_forbidden = true
+all_writes_via_artifact_workflow_update_intent = true
+preserve_workflow_disciplines = true
+
+[workflow.gap_categorisation]
+levels = ["mandatory", "recommended", "optional"]
+default_walks = ["mandatory", "recommended"]
+
+[workflow.refusals]
+refuse_direct_writes = true
+refuse_eliciting_structural_changes = true
+refuse_bypassing_confidentiality = true
+refuse_no_workflow_for_artifact = true
+
+[workflow.handoff]
+on_completion = "<artifact_workflow_handoff>"  # dispatches to target workflow's own handoff
+
+[workflow.red_team]
+default = "off"

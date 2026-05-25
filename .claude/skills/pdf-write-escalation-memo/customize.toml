@@ -1,0 +1,40 @@
+[workflow]
+artifact_pattern = "05-governance/escalations/{date}-{slug}.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.structure]
+method = "SCQA"
+sections = ["Situation", "Complication", "Question", "Answer"]
+all_required = true
+question_max_sentences = 1
+
+[workflow.answer_required_fields]
+recommendation = true
+decision_needed = true
+deadline = true
+without_decision_consequence = true
+
+[workflow.recipient]
+single_named_individual = true
+must_exist_in_stakeholders = true
+
+[workflow.tone_check]
+forbid_blame_language = true
+forbid_hedging_around_recommendation = true
+reject_venting_tone = true
+
+[workflow.red_team]
+default = "on"
+required_before_finalise = true
+inline_simulation_until_skill_exists = false
+dispatch_to = "pdf-red-team"
+plus_tone_check = true
+
+[workflow.trigger_artifacts]
+# Workflow can be triggered from these; the source file is referenced in frontmatter
+allowed = ["blocker", "risk", "change-request", "none"]
+
+[workflow.handoff]
+on_completion = "pdf-decision-log"
+offer_covering_message_draft = true

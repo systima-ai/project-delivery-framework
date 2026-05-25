@@ -1,0 +1,33 @@
+[workflow]
+artifact = "03-planning/budget-baseline.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-plan", "pdf-create-capacity-plan"]
+
+[workflow.views]
+both_rendered_in_output = true
+monthly_view = true
+milestone_view = true
+reconciliation_check_required = true
+reconciliation_failure_is_fatal = true
+allow_mismatch_with_reason = false  # set true per-engagement only if absolutely required
+
+[workflow.rates_source]
+preferred = "_pdf-output/engagements/{active}/.pdf-config.toml"
+fallback = "elicit_and_write_back"
+
+[workflow.computation]
+working_days_per_month_default = 20
+working_days_per_month_overridable = true
+
+[workflow.currency]
+default = "GBP"
+require_explicit = true
+
+[workflow.milestone_proportions]
+must_sum_to = 100  # or explicit <100% with declared note
+allow_underfunded_with_note = true
+
+[workflow.handoff]
+on_grand_total_change_pct = 5
+on_grand_total_change_handoff = "pdf-create-change-request"
+on_completion = "pdf-help"

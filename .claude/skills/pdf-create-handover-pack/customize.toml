@@ -1,0 +1,42 @@
+[workflow]
+artifact = "10-closure/handover-pack.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.contexts]
+allowed = ["BAU", "DM-replacement", "account-lead", "phase-boundary"]
+require_explicit_at_create = true
+
+[workflow.required_sections]
+items = [
+  "Headline",
+  "Current state",
+  "Governance map",
+  "Open items",
+  "Operational details",
+  "Relationships",
+  "Active risks worth knowing about",
+  "What I'd watch for",
+  "What I'd do first if I were you",
+  "Things I'd rather you didn't change (yet)",
+  "Cross-references",
+  "Handover meeting",
+]
+all_present = true
+
+[workflow.refusals]
+refuse_no_first_action = true
+refuse_no_preservation_items = true
+refuse_operational_only_for_dm_replacement = true
+refuse_no_meeting_date = true
+
+[workflow.statuses]
+allowed = ["draft", "shared", "meeting-held", "accepted"]
+default = "draft"
+
+[workflow.handoff]
+on_accepted = "pdf-create-charter"  # update intent — record DM change if relevant
+on_completion = "pdf-help"
+
+[workflow.red_team]
+default = "off"

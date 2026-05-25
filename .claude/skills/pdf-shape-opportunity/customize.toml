@@ -1,0 +1,27 @@
+[workflow]
+artifact = "01-shaping/opportunity-shape.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-qualify-opportunity"]
+
+[workflow.options]
+required_count = 3
+labels = ["Small", "Medium", "Large"]
+require_genuinely_different_scopes = true
+required_fields = ["scope", "out_of_scope", "duration", "team_shape", "best_fit_when"]
+
+[workflow.assumptions]
+min_count = 3
+required_fields = ["assumption", "why", "what_invalidates"]
+
+[workflow.risks]
+required_count = 5
+required_fields = ["risk", "likelihood", "impact", "treatment"]
+
+[workflow.recommendation]
+require_named_trade_off = true
+
+[workflow.handoff]
+on_completion = "pdf-estimate-rom"
+
+[workflow.red_team]
+default = "off"

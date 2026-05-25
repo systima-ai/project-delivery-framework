@@ -1,0 +1,36 @@
+[workflow]
+artifact = "02-mobilization/kickoff-deck.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter", "pdf-create-raci", "pdf-create-governance", "pdf-create-comms-plan"]
+slide_separator = "---"
+
+[workflow.canonical_slides]
+order = [
+  "Title",
+  "Why we're here",
+  "What we're delivering",
+  "What's out of scope",
+  "What success looks like",
+  "Who's involved",
+  "Who decides what",
+  "How we govern",
+  "How we communicate",
+  "Risks we're already watching",
+  "The first 30 days",
+  "Asks",
+  "Q&A",
+  "Appendix",
+]
+
+[workflow.audience]
+# Override per engagement
+default_tone = "professional, confident, no jargon, no buzzwords"
+default_audience = "mixed: client exec, client delivery, internal delivery team"
+
+[workflow.red_team]
+default = "on"
+required_before_share = true
+
+[workflow.handoff]
+on_first_completion = "pdf-create-plan"
+on_update_completion = "pdf-help"
