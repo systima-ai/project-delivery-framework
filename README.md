@@ -3,8 +3,9 @@
 > **Spec-driven, AI-assisted operating system for the "CEO of the engagement".**
 > A Claude Code skill library for senior delivery and engagement managers.
 
+[![npm version](https://img.shields.io/npm/v/@systima/project-delivery-framework.svg)](https://www.npmjs.com/package/@systima/project-delivery-framework)
+[![GitHub release](https://img.shields.io/github/v/release/systima-ai/project-delivery-framework)](https://github.com/systima-ai/project-delivery-framework/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Status: v0.1](https://img.shields.io/badge/status-v0.1-blue)](./CHANGELOG.md)
 
 ---
 
