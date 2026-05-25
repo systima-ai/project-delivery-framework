@@ -13,13 +13,13 @@
     "skills",
     "spec-driven"
   ],
-  "homepage": "https://github.com/systimahq/project-delivery-framework#readme",
+  "homepage": "https://github.com/systima-ai/project-delivery-framework#readme",
   "bugs": {
-    "url": "https://github.com/systimahq/project-delivery-framework/issues"
+    "url": "https://github.com/systima-ai/project-delivery-framework/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/systimahq/project-delivery-framework.git"
+    "url": "git+https://github.com/systima-ai/project-delivery-framework.git"
   },
   "author": "Systima",
   "license": "MIT",
