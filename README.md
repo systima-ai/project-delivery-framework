@@ -39,19 +39,19 @@ Not for: product managers (use Anthropic's `product-management` plugin or BMAD);
 
 ```bash
 # Install into the current directory
-npx project-delivery-framework
+npx @systima/project-delivery-framework
 
 # Or into a specific directory
-npx project-delivery-framework --target ./my-engagement-workspace
+npx @systima/project-delivery-framework --target ./my-engagement-workspace
 
 # Force overwrite of existing PDF skills
-npx project-delivery-framework --force
+npx @systima/project-delivery-framework --force
 
 # See what would be installed without writing
-npx project-delivery-framework --dry-run
+npx @systima/project-delivery-framework --dry-run
 
 # Check what's already installed
-npx project-delivery-framework status
+npx @systima/project-delivery-framework status
 ```
 
 The installer copies:
@@ -165,7 +165,7 @@ This is currently a single-operator project. If you find it useful and have impr
 
 - Match the existing skill anatomy (SKILL.md frontmatter + customize.toml + optional references / assets)
 - Include a CHANGELOG entry
-- Pass `npx project-delivery-framework status` after install in a clean directory
+- Pass `npx @systima/project-delivery-framework status` after install in a clean directory
 
 ## Licence
 

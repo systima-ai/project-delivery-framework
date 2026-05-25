@@ -3,11 +3,11 @@
  * Project Delivery Framework (PDF) — installer CLI
  *
  * Usage:
- *   npx project-delivery-framework              # install into current directory
- *   npx project-delivery-framework install      # explicit install
- *   npx project-delivery-framework --target ./my-workspace
- *   npx project-delivery-framework --force      # overwrite existing skills
- *   npx project-delivery-framework --help
+ *   npx @systima/project-delivery-framework              # install into current directory
+ *   npx @systima/project-delivery-framework install      # explicit install
+ *   npx @systima/project-delivery-framework --target ./my-workspace
+ *   npx @systima/project-delivery-framework --force      # overwrite existing skills
+ *   npx @systima/project-delivery-framework --help
  *
  * What it does:
  *   - Copies .claude/skills/pdf-* into <target>/.claude/skills/
@@ -63,7 +63,7 @@ function printHelp() {
 Project Delivery Framework (PDF) — installer
 
 Usage:
-  npx project-delivery-framework [command] [options]
+  npx @systima/project-delivery-framework [command] [options]
 
 Commands:
   install   (default) Install PDF skills into the target directory
