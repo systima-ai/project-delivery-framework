@@ -1,6 +1,6 @@
 {
   "name": "@systima/project-delivery-framework",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Spec-driven, AI-assisted operating system for delivery / engagement managers. Multi-tool skill library (Claude Code, OpenCode, and any tool supporting .agents/skills/) with 10 stage agents and 52 workflows covering shaping, mobilization, planning, execution, governance, risk, quality, commercial, people, and closure.",
   "keywords": [
     "claude-code",
