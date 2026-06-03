@@ -1,0 +1,25 @@
+# pdf-clean-transcript customisation
+
+[workflow]
+artifact = "_transcripts/<YYYY-MM-DD>-<short-label>.md"
+intents = ["create", "update", "validate", "dump-merge"]
+guide = "references/transcript-cleaning-guide.md"
+
+[workflow.output]
+# Cleaned transcripts are source material, not canonical artifacts.
+# Default home is _transcripts/ at the engagement root; the user may name any path
+# (e.g. place the file beside the stage it informs, such as 01-shaping/).
+default_dir = "_transcripts"
+one_file_per_recording = true
+
+[workflow.uncertainty]
+# Framework-wide unconfirmed-token marker (ARCHITECTURE.md §8.1).
+marker = "[?]"
+inaudible_marker = "[inaudible]"
+
+[workflow.red_team]
+default = "off"
+
+[workflow.handoff]
+# Cleaned transcripts commonly feed these.
+suggests = ["pdf-summarize-standup", "pdf-debrief-call"]

@@ -276,6 +276,55 @@ _pdf-output/engagements/<client>-<project-code>/
 
 PARA-style **Areas** (cross-engagement practice knowledge) live outside this tree at `_pdf-output/practice/` (your reusable templates, your firm's house-style guides, your accumulated lessons).
 
+`_transcripts/` (engagement root) is the default home for cleaned source transcripts produced by `pdf-clean-transcript`. These are **source material, not canonical artifacts** — they inform other workflows but are never authoritative on their own. `call-debriefs/` (engagement root) holds after-action notes from `pdf-debrief-call`.
+
+`00-constitution/FACTS.md` is the engagement's **canonical-facts register** — the single place that records confirmed truths (client/organisation name, key people and roles, glossary of normalised terms) and what is still unconfirmed. Other artifacts reference it rather than re-asserting the same facts independently, so a confirmation is recorded once. See §8.2.
+
+### 8.1 Uncertainty markers (`[TBC]` and `[?]`)
+
+PDF uses two inline markers, framework-wide, so that *missing* and *unconfirmed* information is always visible rather than silently asserted:
+
+| Marker | Means | Used for |
+|---|---|---|
+| `[TBC]` (or bare `TBC`) | **Missing** — a value that is not yet known and needs filling | empty/required fields in any artifact (charter, plan, budget, etc.) |
+| `[?]` | **Unconfirmed** — a best-guess value that may be wrong and needs verifying | mis-heard or inferred tokens in cleaned transcripts; uncertain names/figures in debriefs and facts; any inferred value the author would not assert as fact |
+
+The distinction matters: `[TBC]` says "I have nothing here yet"; `[?]` says "I have *something*, but don't trust it until confirmed". Both are first-class to `pdf-elicit`, which walks them interactively and dispatches confirmations back through the owning artifact's workflow. When a `[?]` token is confirmed, the marker is removed and (in transcripts/facts) the item moves from the "uncertain" list to the confirmed/normalised list.
+
+### 8.2 Canonical facts register (`FACTS.md`)
+
+A recurring failure mode: the same fact (a client's exact legal name, a sponsor's identity, the spelling of a vendor) is asserted independently across the qualification memo, the shape, the charter and the status reports — and when it turns out to be wrong or gets confirmed, it must be chased across every file. `00-constitution/FACTS.md` fixes this by being the **single source of truth for engagement facts**:
+
+- A small table of canonical facts, each flagged **confirmed** or **`[?]` unconfirmed**, with the source/date of confirmation.
+- A people register (name, role, organisation, confirmed?).
+- A glossary of normalised terms (the correct spelling/expansion of names and acronyms that machine transcripts or early notes tend to mangle).
+
+Downstream artifacts cite `FACTS.md` rather than re-deriving these. `pdf-clean-transcript` and `pdf-debrief-call` feed it (their `[?]` items are candidate facts); `pdf-elicit` can clear its unconfirmed rows. It is constitutional (sits in `00-constitution/`) because it is the factual substrate the charter itself relies on.
+
+### 8.3 Engagement lifecycle status
+
+Artifact `status:` (`draft | active | superseded | closed`) describes a *single file*. It says nothing about the *engagement as a whole* — whether it is still a prospect, has been won, is running, is paused, or has closed. Previously this was inferred (from a qualification memo's `recommendation`, or a closure checklist's state) and never stored in one place, so users tracked it by hand in a README banner.
+
+PDF records it explicitly as a `lifecycle:` field in the engagement README frontmatter:
+
+```yaml
+---
+engagement: acme-axiom-2026
+lifecycle: active        # prospective | go | active | on-hold | closed
+lifecycle_updated: 2026-06-02
+---
+```
+
+| Value | Meaning |
+|---|---|
+| `prospective` | Pre-decision opportunity; shaping work only. Mobilization is premature. |
+| `go` | Decision is GO; not yet mobilised. |
+| `active` | Mobilised and running. |
+| `on-hold` | Paused; no new work until resumed. |
+| `closed` | Wound down; closure artifacts only. |
+
+`pdf-help` reads this and **gates its recommendations** (it won't push mobilization on a `prospective` engagement, nor new work on a `closed` one) — a nudge, not a hard block. `pdf-engagement-init` seeds it (`prospective` for fresh, or as stated for migrate). Lifecycle transitions are a natural side effect of stage workflows: a GO qualification can set `go`, first charter population can set `active`, and the closure checklist can set `closed` — each on user confirmation.
+
 ---
 
 ## 9. The "Charter as Living Constitution" pattern
@@ -493,18 +542,33 @@ BMAD encodes this in a central CSV (`bmad-help.csv`) with `preceded-by` and `fol
 | `followed-by` | Comma-separated skills that this typically enables |
 | `required` | true / false — is this artifact mandatory at its stage? |
 | `output_location` | Glob pattern under `_pdf-output/engagements/<engagement>/` |
-| `output_glob` | What file pattern signals "done" |
+| `output_glob` | What file pattern signals existence |
+| `done_when` | Optional predicate that a *matched* file must also satisfy to count as "done" (stub-aware). Empty = file existence is enough. See below. |
+| `built` | true / false — is the skill implemented yet? `false` surfaces as PLANNED. |
 | `description` | One-line summary |
+
+#### The `done_when` predicate (stub-aware completion)
+
+`output_glob` alone cannot tell a genuinely-authored artifact from a freshly-scaffolded stub: `pdf-engagement-init` writes `CHARTER.md` (and the other constitution files) at scaffold time, so the glob matches before a single word is written. `done_when` closes that gap. When set, a row counts as `done` only if the matched file *also* satisfies the predicate:
+
+- `current_revision>=N` — frontmatter revision counter is at least N (e.g. the charter is `done` only at `current_revision>=1`; the rev-0 scaffold does not count).
+- `status:<value>` — frontmatter `status` equals the value.
+- `not-stub` — the file no longer carries its scaffold banner (`> **DRAFT.**` / `STATUS: DRAFT (rev 0)`, or `scaffold_stub: true`).
+
+Empty `done_when` preserves the original behaviour (existence = done), so the change is backward-compatible.
 
 ### How `pdf-help` uses it
 
 When invoked, `pdf-help`:
 
 1. Detects the active engagement (or asks).
-2. Globs every `output_glob` against the engagement folder to compute "what exists".
-3. Walks the CSV in stage order. The **next required action** is the first row whose `preceded-by` is all satisfied and whose `output_glob` is empty.
-4. Recommends that skill, with a one-line "why this next".
-5. Optionally shows the next 2-3 actions so you can see the path ahead.
+2. Reads the engagement `lifecycle:` (README frontmatter) to gate which stages are sensible to recommend.
+3. Computes "what exists" per row: globs `output_glob`, and where `done_when` is set, additionally checks the predicate so a scaffold stub is not mistaken for a finished artifact.
+4. Walks the CSV in stage order. The **next required action** is the first row whose `preceded-by` is all satisfied, whose completion test is not yet met, and whose stage is sensible for the lifecycle.
+5. Recommends that skill, with a one-line "why this next".
+6. Optionally shows the next 2-3 actions so you can see the path ahead.
+
+`pdf-help` also offers a **`stale`** mode: a freshness sweep that flags artifacts whose `charter_revision` is behind the charter's current revision, or whose cited sources are newer than the artifact itself, or that still carry unresolved `[TBC]`/`[?]` markers. It is advisory only and edits nothing — the cure for an artifact silently drifting out of date when an upstream fact changes.
 
 ### Example flow (engagement just signed, nothing exists yet)
 

@@ -27,6 +27,9 @@ You scaffold the canonical engagement folder structure, seed initial artifacts f
    - `{{ENGAGEMENT_DESCRIPTION}}` → the one-line description (or "_(none provided)_")
    - `{{CREATED_AT}}` → ISO-8601 UTC timestamp
    - `{{CREATED_BY}}` → `created_by_default` from `customize.toml`
+   - `{{LIFECYCLE}}` → `initial_lifecycle` from `customize.toml` (default `prospective`). Ask the user if the engagement is already won — if so, set `go` or `active`. This seeds the engagement-level lifecycle (`ARCHITECTURE.md` §8.3) that `pdf-help` gates on.
+
+   The scaffold includes `00-constitution/FACTS.md` (the canonical-facts register, `ARCHITECTURE.md` §8.2) and the `_transcripts/` and `call-debriefs/` source directories.
 
 5. **Set active.** Write the slug into `ACTIVE_ENGAGEMENT` at repo root.
 

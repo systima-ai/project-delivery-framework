@@ -16,21 +16,37 @@ You are the routing brain of the Project Delivery Framework (PDF). When invoked,
    - If multiple exist, ask the user which.
    - If none exist, recommend `pdf-engagement-init` and stop.
 
-2. **Load the skill index.** Read `_pdf/_config/pdf-help.csv`. Each row is one skill with stage, agent, preceded-by chain, output glob, built/planned status.
+2. **Load the skill index.** Read `_pdf/_config/pdf-help.csv`. Each row is one skill with stage, agent, preceded-by chain, output glob, `done_when` predicate, built/planned status.
 
-3. **Compute "what exists".** For each row, glob the `output_glob` against the active engagement's folder under `_pdf-output/engagements/<slug>/`. Mark each row as `done` (matches found) or `pending`.
+3. **Read engagement lifecycle.** Read the `lifecycle:` field from the engagement README frontmatter (`_pdf-output/engagements/<slug>/README.md`). Values: `prospective | go | active | on-hold | closed` (see `ARCHITECTURE.md` §8.3). If absent, assume `active` (back-compatible). Lifecycle gates which stages are sensible to recommend — see step 5.
 
-4. **Find the next required action.** Walk rows in stage order. The next action is the first row where:
+4. **Compute "what exists" (stub-aware).** For each row, decide `done` vs `pending`:
+   - **If `done_when` is empty:** glob the `output_glob` against `_pdf-output/engagements/<slug>/`. Matches found → `done`.
+   - **If `done_when` is set:** the file must *both* exist (by glob) *and* satisfy the predicate. Predicates:
+     - `current_revision>=N` — the file's frontmatter `current_revision` is at least N (distinguishes a populated charter from a rev-0 scaffold stub).
+     - `status:<value>` — the file's frontmatter `status` equals the value.
+     - `not-stub` — the file no longer carries its scaffold marker (the `> **DRAFT.**` / `STATUS: DRAFT (rev 0)` banner, or `scaffold_stub: true` frontmatter). A freshly scaffolded-but-unpopulated artifact is therefore `pending`, not `done`.
+   This stops `pdf-help` from treating a scaffold stub (written at `pdf-engagement-init` time) as a completed artifact.
+
+5. **Find the next required action.** Walk rows in stage order. The next action is the first row where:
    - `required` is true
    - every entry in `preceded_by` is `done`
    - the row itself is `pending`
    - the row's `built` is true
+   - the row's stage is **sensible for the current lifecycle** (see lifecycle gating below)
    If the next-required action's skill is `built: false`, surface it as **"PLANNED — not yet built; the next step is to scaffold this skill"** rather than silently skipping it.
 
-5. **Report.** Output in this shape:
+   **Lifecycle gating:**
+   - `prospective` — recommend only `01-shaping` (and `meta`) work; do not push mobilization. If shaping is done, the next action is "confirm GO, then set lifecycle: go/active".
+   - `go` / `active` — full chain recommended normally.
+   - `on-hold` — note the hold; recommend no new work; surface only outstanding required items.
+   - `closed` — recommend nothing beyond closure-stage artifacts; warn if asked to start new work.
+   Gating is a *recommendation* nudge, not a hard block; the user can run any built skill directly.
+
+6. **Report.** Output in this shape:
 
    ```
-   Active engagement: <slug>
+   Active engagement: <slug>  (lifecycle: <lifecycle>)
    Current stage:    <stage>
 
    NEXT REQUIRED ACTION:
@@ -55,9 +71,20 @@ You are the routing brain of the Project Delivery Framework (PDF). When invoked,
 The user can ask for:
 
 - **`help`** (default) — the flow above.
-- **`status`** — full table: every skill in the CSV with done / pending / blocked / planned status. For when the user wants the overall map.
+- **`status`** — full table: every skill in the CSV with done / pending / blocked / planned status (stub-aware per `done_when`). For when the user wants the overall map.
 - **`stage <N>`** — recommend the next action within a specific stage only (e.g. `stage 04-execution`).
 - **`adversarial-check`** — scan every artifact in the active engagement and report which high-stakes artifacts (per architecture §16) have `red_teamed: false` in their frontmatter.
+- **`stale`** — consistency / freshness sweep (see below). Flags artifacts that may have fallen behind their inputs.
+
+## Stale / freshness sweep (`stale` mode)
+
+A downstream artifact can silently fall out of date when an upstream fact changes. This mode surfaces the suspects (it never edits anything):
+
+1. **Charter-revision drift.** Read the charter's current `current_revision`. Any artifact whose frontmatter `charter_revision` is **less than** the current charter revision is flagged: it was generated against an older constitution and may need refreshing.
+2. **Source-newer-than-artifact.** For each artifact carrying a `sources:` / `source_materials:` list in frontmatter, compare the artifact's `last_updated` (or file mtime) against the mtime of each cited source. If any source is **newer** than the artifact, flag it — the artifact predates information it claims to be based on.
+3. **Unresolved markers.** Report counts of `[TBC]` and `[?]` markers per artifact, so stale unknowns are visible.
+
+Output a short table: `artifact | reason flagged | suggested action` (usually "re-run its workflow's update intent" or "run `pdf-elicit`"). Keep it advisory; the user decides what to refresh.
 
 ## Detecting "high-stakes" for the adversarial check
 

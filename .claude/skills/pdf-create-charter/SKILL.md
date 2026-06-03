@@ -43,7 +43,8 @@ When all 8 sections are walked:
 8. Run validation (see Intent: validate).
 9. Offer the red-team gate: *"Charter is internal-but-foundational. Run pdf-red-team now? [recommended: yes]"*
 10. Update frontmatter `red_teamed` flag.
-11. Report and hand off: *"Charter is at revision 1. Next: pdf-create-raci."*
+11. **Lifecycle nudge.** If the engagement README `lifecycle:` is still `prospective` or `go`, offer: *"Charter is populated — set engagement lifecycle to `active`? [y/N]"* On yes, update `lifecycle` and `lifecycle_updated` in `_pdf-output/engagements/<slug>/README.md` (see `ARCHITECTURE.md` §8.3).
+12. Report and hand off: *"Charter is at revision 1. Next: pdf-create-raci."*
 
 ## Intent: update
 

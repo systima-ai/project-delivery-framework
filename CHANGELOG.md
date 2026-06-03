@@ -2,6 +2,22 @@
 
 All notable changes to the Project Delivery Framework.
 
+## [0.1.4] — 2026-06-03
+
+### Added
+
+- **`pdf-clean-transcript` (meta utility).** Turns a raw machine transcript (Teams / Zoom / Otter / Whisper / single-channel recorder export) into a clean, cited markdown transcript with **inferred speaker labels**, **normalised mis-transcriptions**, and explicit **`[?]` uncertainty markers**. Output is treated as source material (default `_transcripts/`), not a canonical artifact, and carries a standard "Editor's notes" preamble that makes every inference visible. Includes `references/transcript-cleaning-guide.md`. Fills a real gap: the framework previously had no way to clean/diarise a messy auto-transcript (the `dump` flow assumes readable input).
+- **`pdf-debrief-call` (meta utility).** After-action review of a consequential call (discovery / stakeholder / negotiation / interview). Rates the call against a per-type dimension rubric with evidence per score, captures durable intelligence, and extracts owned follow-ups. Honest by design — at least one named weakness is mandatory. Includes `references/call-debrief-guide.md`. Side-effects into RAID, the decision log, and `FACTS.md`.
+- **Canonical-facts register (`00-constitution/FACTS.md`).** New scaffolded constitution artifact: the single source of truth for the client/organisation name, key people and roles, and a glossary of normalised terms — each flagged confirmed or `[?]` unconfirmed. Other artifacts cite it rather than re-asserting facts independently (`ARCHITECTURE.md` §8.2).
+- **Engagement-level lifecycle status.** A `lifecycle:` field (`prospective | go | active | on-hold | closed`) in the engagement README frontmatter, seeded by `pdf-engagement-init` and gated on by `pdf-help` (it won't push mobilization on a `prospective` engagement, nor new work on a `closed` one). `pdf-create-charter` offers to flip it to `active` on first population (`ARCHITECTURE.md` §8.3).
+- **`pdf-help stale` mode.** A freshness/consistency sweep that flags artifacts whose `charter_revision` is behind the current charter, whose cited sources are newer than the artifact, or that still carry unresolved `[TBC]`/`[?]` markers. Advisory; edits nothing.
+
+### Changed
+
+- **Stub-aware completion in `pdf-help`.** New optional `done_when` column in `pdf-help.csv` lets the recommender distinguish a genuinely-authored artifact from a freshly-scaffolded stub (e.g. the charter counts as done only at `current_revision>=1`; RACI/governance/comms only once they shed the `**DRAFT.**` scaffold banner). Empty `done_when` keeps the old existence-only behaviour — fully backward-compatible.
+- **`[?]` unconfirmed-token convention formalised** framework-wide (`ARCHITECTURE.md` §8.1): `[TBC]` means *missing*, `[?]` means *unconfirmed best-guess*. `pdf-elicit` now walks both marker classes and clears `[?]` tokens on confirmation.
+- `ARCHITECTURE.md` (§8 taxonomy + new §8.1/§8.2/§8.3, §17 routing) and the engagement template (README frontmatter, `FACTS.md`, `_transcripts/`, `call-debriefs/`) updated for the above.
+
 ## [0.1.3] — 2026-06-03
 
 ### Added

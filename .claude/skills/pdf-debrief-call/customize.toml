@@ -1,0 +1,27 @@
+# pdf-debrief-call customisation
+
+[workflow]
+artifact = "call-debriefs/<YYYY-MM-DD>-<short-label>.md"
+intents = ["create", "update", "validate", "dump-merge"]
+guide = "references/call-debrief-guide.md"
+
+[workflow.output]
+default_dir = "call-debriefs"
+one_file_per_call = true
+
+[workflow.rating]
+scale_min = 1
+scale_max = 10
+require_evidence_per_dimension = true
+require_at_least_one_weakness = true
+
+[workflow.uncertainty]
+marker = "[?]"
+
+[workflow.red_team]
+default = "off"
+recommend_before_sharing_upward = true
+
+[workflow.handoff]
+upstream = ["pdf-clean-transcript"]
+side_effects = ["pdf-update-raid", "pdf-decision-log", "pdf-create-charter"]

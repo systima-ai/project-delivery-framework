@@ -5,7 +5,11 @@ description: Standalone elicitation skill. Walks any PDF artifact's gaps interac
 
 # Elicit workflow
 
-The framework's interactive gap-filler. Reads an existing artifact, identifies what's missing or marked TBC, walks the user through one question at a time, and dispatches the writes back to the artifact's own workflow.
+The framework's interactive gap-filler. Reads an existing artifact, identifies what's missing (`[TBC]` / `TBC`) or unconfirmed (`[?]`), walks the user through one question at a time, and dispatches the writes back to the artifact's own workflow.
+
+Two marker classes are in scope (see `ARCHITECTURE.md` §8.1):
+- **`[TBC]` / `TBC`** — *missing* values to fill.
+- **`[?]`** — *unconfirmed* best-guess values to verify. When a `[?]` token is confirmed, the marker is removed; in transcripts and `FACTS.md` the item also moves from the "uncertain" list to the confirmed/normalised list. When the user says a `[?]` value was wrong, capture the correction the same way.
 
 This is a **standalone skill** (per design choice) — directly invocable. The user says "elicit me through the gaps in [path]" and the workflow runs.
 
@@ -19,10 +23,11 @@ This is a **standalone skill** (per design choice) — directly invocable. The u
 2. **Read the artifact.**
 3. **Identify the artifact's workflow.** From frontmatter `artifact_type` and `generated_by`.
 4. **Load the workflow's validation criteria** from its `customize.toml` and SKILL.md.
-5. **Run validation.** Surface every check that fails: missing fields, TBC values, blank required fields.
+5. **Run validation.** Surface every check that fails: missing fields, `[TBC]`/`TBC` values, `[?]` unconfirmed tokens, blank required fields.
 6. **Categorise gaps.**
    - **Mandatory** — validation fails on these; cannot finalise without them
    - **Recommended** — workflow flags these but doesn't fail
+   - **Unconfirmed** — `[?]` tokens: a value exists but needs verifying (confirm, or correct)
    - **Optional** — sections the user could fill but no obligation
 7. **Walk the gaps interactively.** One at a time. For each:
    - Show the field name and where it lives in the artifact

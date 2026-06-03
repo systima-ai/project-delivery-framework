@@ -57,7 +57,7 @@ npx @systima/project-delivery-framework status
 
 The installer copies skills into **three locations** so multiple AI tools work out of the box:
 
-- `.claude/skills/pdf-*/` — primary location; discovered natively by **Claude Code** and **OpenCode** (62 skill folders)
+- `.claude/skills/pdf-*/` — primary location; discovered natively by **Claude Code** and **OpenCode** (65 skill folders)
 - `.agents/skills/pdf-*/` — tool-agnostic mirror for any agent following the `.agents/skills/` convention
 - `.opencode/commands/pdf-*.md` — slash-command wrappers so PDF commands appear as `/pdf-help`, `/pdf-agent-mobilizer`, etc. in **OpenCode**'s TUI
 
@@ -131,7 +131,7 @@ project-delivery-framework/
 ├── LICENSE                  # MIT
 ├── package.json             # npm metadata; `bin` = installer CLI
 ├── bin/cli.js               # npx installer
-├── .claude/skills/          # 62 skill folders (pdf-*)
+├── .claude/skills/          # 65 skill folders (pdf-*)
 ├── _pdf/_config/            # pdf-help.csv (52-row skill index)
 └── _pdf-output/             # output root (engagements + practice library)
     ├── engagements/         # one folder per engagement (gitignored content)
