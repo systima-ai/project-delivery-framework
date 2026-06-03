@@ -2,6 +2,18 @@
 
 All notable changes to the Project Delivery Framework.
 
+## [0.1.3] — 2026-06-03
+
+### Added
+
+- **`pdf-create-measurement-plan` (Petra / Planning).** New measurement baseline artifact, sibling to the budget and capacity baselines. Uses Goal → Question → Metric (GQM): goals trace to charter success criteria, each metric carries a full specification (definition, target with rationale, baseline, data source, frequency, owner, analysis procedure, reporting destination). A coverage check is fatal-on-fail (no orphan goals/metrics, no metric without a target/owner/destination). Metrics map to their existing collectors (`pdf-velocity-check`, `pdf-track-budget`, `pdf-analyse-margin`, the Quinn health cards, `pdf-team-health-check`) rather than re-defining collection. Output: `03-planning/measurement-plan.md`. Includes `references/metric-spec-guide.md` (field definitions, GQM worked example, consumer-mapping table).
+
+### Changed
+
+- **`pdf-create-mitigation-plan` (Klaus / Risk & Change).** Now separates pre-event **mitigation** (reduce probability/impact) from a distinct **contingency plan** (the pre-agreed response *if the risk occurs*), with explicit materialisation triggers. Adds the **risk → issue** handoff (on materialisation, route to `pdf-update-raid` to log an Issue, capturing reasons-for-occurrence) and an optional **occurrence-ratio** note (risks materialised ÷ risks identified) as a leading indicator, cross-linked to the measurement plan.
+- **`pdf-create-governance` (Marcus / Mobilization).** Escalation tree component gains an optional **symmetric escalation ladder** — levels mirrored across delivery side and client side so each level knows its counterpart, with a trigger-to-escalate and response SLA per level.
+- Petra's menu, `pdf-help.csv`, and `ARCHITECTURE.md` (§6.3, §8) updated for the new measurement plan.
+
 ## [0.1.2] — 2026-05-25
 
 ### Added

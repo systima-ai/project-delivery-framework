@@ -13,6 +13,27 @@ target_status = "in-mitigation"
 also_update_mitigation_cell = true
 also_append_raid_history = true
 
+[workflow.contingency]
+# Distinct from mitigation: the pre-agreed response if the risk occurs.
+require = true
+require_materialisation_trigger = true
+# Each contingency needs a response action with an owner, OR an explicit decision.
+allow_accept_and_absorb = true
+accept_decision_requires_approver = true
+
+[workflow.on_materialisation]
+# Risk -> Issue handoff when a contingency trigger fires.
+set_risk_status = "materialised"
+convert_to_raid_issue = "pdf-update-raid"
+capture_reasons_for_occurrence = true
+offer_on_blocking = "pdf-triage-blocker"
+offer_on_decision_needed = "pdf-decide-escalation"
+
+[workflow.occurrence_metric]
+# Leading indicator; candidate metric in the measurement plan if one exists.
+ratio = "risks_materialised / risks_identified"
+surfaces_in = "03-planning/measurement-plan.md"
+
 [workflow.review]
 default_cadence = "fortnightly"
 allowed_cadences = ["weekly", "fortnightly", "monthly", "on-trigger"]

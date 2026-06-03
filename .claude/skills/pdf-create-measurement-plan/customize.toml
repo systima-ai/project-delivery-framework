@@ -1,0 +1,56 @@
+[workflow]
+artifact = "03-planning/measurement-plan.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+
+[workflow.metric_required_fields]
+# Every metric specification must carry all of these. Validation rejects blanks/TBC.
+fields = [
+  "definition",
+  "target",
+  "baseline",
+  "data_source",
+  "frequency",
+  "owner",
+  "analysis_procedure",
+  "reporting_destination",
+]
+
+[workflow.gqm]
+# Goal → Question → Metric. Goals trace to charter success criteria unless
+# explicitly tagged operational.
+require_charter_link = true
+operational_tag = "operational (not charter-linked)"
+
+[workflow.baseline]
+# Unknown current value is recorded honestly, never invented.
+unknown_value = "no baseline yet"
+require_review_date_when_unknown = true
+
+[workflow.existing_collectors]
+# Map a metric to its canonical PDF collector rather than re-defining collection.
+velocity = "pdf-velocity-check"
+budget_burn = "pdf-track-budget"
+margin = "pdf-analyse-margin"
+sdlc_quality = "pdf-sdlc-health"
+qa = "pdf-qa-health"
+syseng = "pdf-syseng-health"
+secure_sdlc = "pdf-secure-sdlc-health"
+team_health = "pdf-team-health-check"
+
+[workflow.coverage_check]
+# All must pass before the plan is written. Petra's structural honesty gate.
+checks = [
+  "every_goal_has_metric",
+  "every_metric_has_goal",
+  "every_metric_has_target",
+  "every_metric_has_owner_in_stakeholders",
+  "every_metric_has_reporting_destination",
+]
+
+[workflow.red_team]
+default = "off"
+
+[workflow.handoff]
+on_first_completion = "pdf-help"
+on_metric_target_set = "pdf-velocity-check"

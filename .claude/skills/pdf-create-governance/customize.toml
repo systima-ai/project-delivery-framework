@@ -23,6 +23,15 @@ quality_gate_failure_owners = ["Quality Steward", "Delivery Manager"]
 [workflow.escalation_levels]
 default_response_times = ["24h", "48h", "1 week"]
 
+[workflow.escalation_ladder]
+# Optional symmetric ladder: delivery-side and client-side levels mirrored,
+# so each level escalates to its counterpart rather than blindly upward.
+enabled_by_default = false
+require_both_sides_per_level = true   # each level names both sides or explicit n/a
+require_trigger_per_level = true
+require_response_sla_per_level = true
+client_side_name_tag = "(client)"
+
 [workflow.handoff]
 on_first_completion = "pdf-create-comms-plan"
 on_update_completion = "pdf-help"

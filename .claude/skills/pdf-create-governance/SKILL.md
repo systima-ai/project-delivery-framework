@@ -41,6 +41,19 @@ Default thresholds (override per engagement):
 
 For each escalation trigger, define three levels (within 24h / 48h / 1 week) with named individuals. The names must exist in `STAKEHOLDERS.md`.
 
+**Optional: symmetric escalation ladder.** For engagements where escalation runs in parallel on both sides (most client engagements), offer a two-sided ladder so every level knows its counterpart — you escalate to the person at your level on the other side, not blindly upward. Ask: *"Do you want a symmetric ladder mapping delivery-side and client-side escalation levels?"* If yes, build:
+
+| Level | Delivery side | Client side | Trigger to escalate up | Response SLA |
+|---:|---|---|---|---|
+| 1 | <name / role> | <name / role> | <condition> | <e.g. 24h> |
+| 2 | <name / role> | <name / role> | <condition> | <e.g. 48h> |
+| 3 | <name / role> | <name / role> | <condition> | <e.g. 1 week> |
+
+Rules when the ladder is used:
+- Each level names **both** sides, or marks a side explicitly `n/a` (e.g. no client-side counterpart at level 1).
+- Every delivery-side name exists in `STAKEHOLDERS.md`; client-side names exist there or are tagged `(client)`.
+- Each level has a trigger-to-escalate and a response SLA — a level with neither is decoration.
+
 ## Intent: update
 
 Same diff-and-confirm pattern as charter update. Governance changes that affect decision rights are significant — append to `decision-log.md`.
@@ -52,7 +65,8 @@ Checks:
 - [ ] Every forum row has non-empty "Decisions made here"
 - [ ] Every decision class has a named owner and a threshold
 - [ ] Every escalation trigger has at least two levels populated with named individuals
-- [ ] All named people exist in `STAKEHOLDERS.md`
+- [ ] If a symmetric ladder is used: every level names both sides (or an explicit `n/a`), and every level has a trigger-to-escalate and a response SLA
+- [ ] All named people exist in `STAKEHOLDERS.md` (client-side names exist there or are tagged `(client)`)
 - [ ] Steering cadence in this file matches the charter summary
 
 ## Intent: dump-merge

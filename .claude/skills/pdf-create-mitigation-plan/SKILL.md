@@ -1,6 +1,6 @@
 ---
 name: pdf-create-mitigation-plan
-description: Compose a structured mitigation plan for a risk that has moved up the matrix or materialised. Forces all four commitment fields per action: owner, action, deadline, trigger-to-revisit. Use when a risk needs an active response.
+description: Compose a structured mitigation plan for a risk that has moved up the matrix or materialised. Separates pre-event mitigation from an if-it-occurs contingency plan, forces all four commitment fields per action (owner, action, deadline, trigger-to-revisit), and handles the risk-to-issue handoff on materialisation. Use when a risk needs an active response.
 ---
 
 # Mitigation plan workflow
@@ -10,6 +10,13 @@ Produces `_pdf-output/engagements/{active}/06-risk-change/mitigation-plans/<YYYY
 Side effect: updates the RAID row's `status` to `in-mitigation` and its `mitigation` cell to reference this plan. Same dual-write discipline as `pdf-triage-blocker`.
 
 Klaus's principle 3 is the constraint: mitigation plans are commitments, not aspirations. Each action requires all four fields — owner, action, deadline, trigger-to-revisit.
+
+**Two distinct responses, never conflated:**
+
+- **Mitigation** — actions taken *now*, before the risk occurs, to reduce its probability or its impact.
+- **Contingency** — the pre-agreed response executed *if and when the risk occurs*, activated by a named materialisation trigger.
+
+A plan that lists only mitigation has no answer for the day the risk lands; a plan that lists only contingency has given up on prevention. This workflow requires both (contingency may be a deliberate, recorded "accept and absorb" — but the decision must be explicit).
 
 ## Preconditions
 
@@ -28,9 +35,13 @@ Klaus's principle 3 is the constraint: mitigation plans are commitments, not asp
 
    Refuse any action missing any field. Klaus's principle 3 is non-negotiable here.
 
-5. **Establish fallback.** *"What is the fallback if this plan doesn't work — or if the deadline passes with the action incomplete?"* One paragraph.
-6. **Update target residual L×I.** *"If this plan succeeds, what's the new residual L×I score?"*
-7. **Compose:**
+5. **Define the contingency plan (if the risk occurs).** Distinct from the mitigation actions above. Ask:
+   - **Materialisation trigger(s):** *"What observable condition means this risk has occurred (not just got more likely)? The signal that flips us from prevention to response."*
+   - **Contingency response:** *"When that trigger fires, what is the pre-agreed response? Who executes it?"* — at least one response action with an owner; or an explicit, recorded decision to **accept and absorb** (and why).
+   - This is what gets executed on the worst day; it must be decided in the calm, not invented in the crisis.
+6. **Establish fallback.** *"What is the fallback if the mitigation actions fail to reduce the residual — or if a deadline passes with the action incomplete?"* One paragraph. (Fallback = mitigation didn't work; contingency = the risk occurred. Keep them separate.)
+7. **Update target residual L×I.** *"If this plan succeeds, what's the new residual L×I score?"*
+8. **Compose:**
 
 ```markdown
 ---
@@ -65,9 +76,22 @@ generated_by: pdf-create-mitigation-plan
 
 (Every row must have all five fields populated. Validation enforces this.)
 
+## Contingency plan (if the risk occurs)
+
+**Materialisation trigger(s):** <observable condition(s) that mean the risk has occurred>
+
+| # | Response action | Owner | Notes |
+|---:|---|---|---|
+| 1 | <what we do when the trigger fires> | <name> | |
+| 2 | <action> | <name> | |
+
+_Or:_ **Accept and absorb** — <explicit decision and rationale; named approver>.
+
+**On materialisation:** convert the risk to an Issue via `pdf-update-raid` (RAID Issues), recording the reasons for occurrence; triage via `pdf-triage-blocker` if it blocks delivery.
+
 ## Fallback
 
-<one paragraph; what happens if the above does not deliver the target residual>
+<one paragraph; what happens if the mitigation actions do not deliver the target residual — distinct from the contingency above>
 
 ## Review schedule
 
@@ -78,6 +102,7 @@ generated_by: pdf-create-mitigation-plan
 
 - RAID row: `04-execution/RAID.md#R-<NNN>`
 - Risk deep-dive (if any): `06-risk-change/risk-deep-dives/<file>`
+- Occurrence tracking: this risk contributes to the engagement's *risks-materialised ÷ risks-identified* ratio — a leading indicator of estimation/planning quality. If a measurement plan exists (`03-planning/measurement-plan.md`), this ratio is a candidate metric there.
 
 ---
 
@@ -86,12 +111,12 @@ generated_by: pdf-create-mitigation-plan
 - <date> — Plan created. Status: active.
 ```
 
-8. **Update RAID.** Apply the same discipline as `pdf-update-raid`:
+9. **Update RAID.** Apply the same discipline as `pdf-update-raid`:
    - Set risk row's `status: in-mitigation`
    - Append to `mitigation` cell: `See: 06-risk-change/mitigation-plans/<file>`
    - Append to RAID History: `<date> | Risks | R-<NNN> — mitigation plan created`
    - Update `last_updated` frontmatter
-9. **Hand off:**
+10. **Hand off:**
    - If the plan's fallback names an escalation, offer `pdf-decide-escalation`.
    - If actions span more than 30 days, offer to flag the longest-deadline action in the next weekly status's Asks.
 
@@ -102,6 +127,7 @@ generated_by: pdf-create-mitigation-plan
    - Action progress / completion: append to `## History`; if all actions complete, prompt to close the plan and the underlying risk
    - Deadline change: log the change and the reason
    - Fallback triggered: append a `## Fallback engaged — <date>` section and route to Helena for escalation memo if appropriate
+   - **Risk materialised (contingency trigger fired):** append a `## Materialised — <date>` section recording the reasons for occurrence; set the RAID risk row's `status: materialised`; convert to a RAID **Issue** via `pdf-update-raid` (carry the reasons across); offer `pdf-triage-blocker` if it blocks delivery and `pdf-decide-escalation` if the contingency response needs a decision above the team.
 3. If the underlying risk's inherent score changes mid-plan, prompt to revisit the plan rather than silently updating.
 
 ## Intent: validate
@@ -110,13 +136,14 @@ generated_by: pdf-create-mitigation-plan
 - [ ] At least one action; every action row has all five fields filled (no blanks, no TBC)
 - [ ] Every owner is in STAKEHOLDERS.md
 - [ ] Every deadline is a real date (in the future at time of creation)
-- [ ] Fallback paragraph is non-empty
+- [ ] Contingency section present: at least one materialisation trigger AND either a response action with an owner OR an explicit "accept and absorb" decision with a named approver
+- [ ] Fallback paragraph is non-empty (and distinct from the contingency)
 - [ ] Review schedule is set
 - [ ] RAID row reflects this plan (status `in-mitigation`, mitigation cell references the file)
 
 ## Intent: dump-merge
 
-Accept dumped material describing what's being done about a risk. Extract candidate actions; for each, identify which of the four fields are present and which need elicitation. Surface the gaps before structuring.
+Accept dumped material describing what's being done about a risk. Separate pre-event actions (mitigation) from if-it-occurs responses (contingency) — they are often muddled together in raw notes. For each action, identify which of the four fields are present and which need elicitation. Surface the gaps before structuring.
 
 ## Red-team posture
 

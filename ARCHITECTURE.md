@@ -113,6 +113,7 @@ Each stage has one agent persona. The persona is a memorable handle, not a liter
   - `pdf-create-plan` — milestone-based plan with Mermaid Gantt; phases, gates, dependencies.
   - `pdf-create-capacity-plan` — team shape over time; FTE-months by role; ramp-up/down curves.
   - `pdf-create-budget-baseline` — first cut of budget tied to capacity plan and milestone payments.
+  - `pdf-create-measurement-plan` — the measurement baseline: GQM goals traced to charter success criteria, with a per-metric spec (target, owner, source, frequency, reporting destination) for each. Maps metrics to their existing collectors rather than re-inventing collection.
   - `pdf-challenge-estimate` — adversarial review of any estimate (yours or a team's) before it's committed. Red-team baked in.
 - **Reference inputs:** charter, RACI, capacity from the resource pool, similar engagement actuals.
 
@@ -226,6 +227,7 @@ _pdf-output/engagements/<client>-<project-code>/
 │   ├── plan.md                    (with embedded Mermaid Gantt)
 │   ├── capacity-plan.md
 │   ├── budget-baseline.md
+│   ├── measurement-plan.md
 │   └── estimate-challenge-log.md
 ├── 04-execution/
 │   ├── RAID.md                    (living)
