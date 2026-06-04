@@ -2,6 +2,30 @@
 
 All notable changes to the Project Delivery Framework.
 
+## [0.1.6] — 2026-06-04
+
+### Added
+
+- **`pdf-create-risk-approach` (Klaus / Risk & Change).** New risk-approach artifact — the "plan risk management" step PDF previously skipped. Defines, once per engagement, the **probability and impact scales** (what a 1–5 actually means, impact multi-dimensional across cost/schedule/quality/reputation), the **rating matrix and severity bands** (with a required response per band), the **risk appetite and a hard escalation threshold**, the **risk categories**, and the **review cadence**. Grounds every L×I score the RAID and deep-dives produce, and reconciles its escalation threshold to `GOVERNANCE.md`. Output: `06-risk-change/risk-approach.md` (living document). Includes `references/risk-scale-guide.md` (firm-neutral default bands, matrix rubric, appetite structure, category starter set). Coverage check fatal-on-fail.
+
+### Changed
+
+- **Two-sided risk (threats and opportunities).** Risk is now tracked with a `Type` (threat / opportunity), honouring the standard definition of risk as uncertainty with either sign. The RAID Risks table gains a Type column; `pdf-update-raid` enforces the type-appropriate response set (threats: Treat/Tolerate/Transfer/Terminate; opportunities: Exploit/Enhance/Share/Accept) and refuses a mismatched treatment. Klaus's dump flow can route an upside to an opportunity entry.
+- **`pdf-update-raid` (Ronan)** and **`pdf-risk-deep-dive` (Klaus)** now score and interpret against `risk-approach.md` when present (severity bands, escalation threshold), and offer to create it when absent so scores stop floating.
+- Klaus's menu/scan, `pdf-help.csv`, and `ARCHITECTURE.md` (§6.6) updated for the risk approach and two-sided risk.
+
+## [0.1.5] — 2026-06-04
+
+### Added
+
+- **`pdf-classify-security-posture` (Quinn / Quality).** New engagement-level security & privacy posture classification — the scoping artifact that `pdf-secure-sdlc-health` assesses *against*. Classifies four independent risk dimensions (contractual obligations, personal/sensitive data, physical/embedded product, production/live access), each yes/no/not-yet-known, and derives an overall tier (0 Baseline → 3 Critical) with the controls and artifacts each triggered dimension requires. **Tier 0 is a deliberate, owned declaration, not silence.** Reconciles a triggered personal-data dimension to a named privacy regime in the charter. Output: `07-quality/security-posture.md` (living document). Includes `references/posture-tier-guide.md` (per-dimension trigger questions, required-controls tables, tier rubric, worked example). Firm-neutral throughout.
+
+### Changed
+
+- **`pdf-secure-sdlc-health` (Quinn).** Now reads `security-posture.md` when present and uses its tier and triggered dimensions to scope the assessment and seed the compliance cross-check; when absent, offers to classify first. Posture absent or a Tier 2/3 control missing now routes back to `pdf-classify-security-posture`.
+- **`pdf-weekly-status` (Ronan).** Adds the corrective-action / re-baseline discipline: when something slips (or status is AMBER/RED), the report must state a corrective action — recover to the existing baseline if possible, otherwise re-baseline and **publish the variance** rather than absorbing it silently. Enforced in the elicitation, the format guide, and validation.
+- Quinn's menu/scan, `pdf-help.csv`, and `ARCHITECTURE.md` (§6.7, §10) updated for the new posture artifact.
+
 ## [0.1.4] — 2026-06-03
 
 ### Added

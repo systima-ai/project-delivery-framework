@@ -1,0 +1,62 @@
+[workflow]
+artifact = "06-risk-change/risk-approach.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+followed_by = ["pdf-update-raid"]
+
+[workflow.scales]
+likelihood_points = 5
+impact_points = 5
+# Impact is multi-dimensional; a risk's impact score is the max across dimensions.
+impact_dimensions = ["cost", "schedule", "quality_scope", "reputation_stakeholder"]
+impact_score_rule = "max-across-dimensions"
+
+[workflow.matrix]
+# L×I product (1-25) mapped to severity bands with a required response each.
+bands = ["low", "moderate", "high", "critical"]
+require_response_per_band = true
+
+[workflow.appetite]
+require_plain_language_statement = true
+require_numeric_threshold = true
+allow_per_category_tolerance = true
+
+[workflow.two_sided]
+# Threats and opportunities tracked with distinct response sets.
+threat_responses = ["Treat", "Tolerate", "Transfer", "Terminate"]
+opportunity_responses = ["Exploit", "Enhance", "Share", "Accept"]
+
+[workflow.categories]
+# Firm-neutral starter set; override per engagement.
+starter_set = [
+  "Delivery / schedule",
+  "Commercial",
+  "Technical",
+  "People / resource",
+  "External / vendor",
+  "Security / compliance",
+]
+minimum = 3
+
+[workflow.reconciliation]
+# The escalation threshold must agree with GOVERNANCE.md.
+reconcile_escalation_threshold_with_governance = true
+
+[workflow.coverage_check]
+checks = [
+  "all_likelihood_bands_defined",
+  "all_impact_bands_defined_per_dimension",
+  "matrix_covers_full_range_with_responses",
+  "appetite_statement_and_threshold_set",
+  "both_response_sets_recorded",
+  "single_named_owner_in_stakeholders",
+  "escalation_threshold_reconciled_with_governance",
+]
+
+[workflow.red_team]
+default = "off"
+
+[workflow.handoff]
+on_first_completion = "pdf-update-raid"
+on_threshold_change = "pdf-decision-log"
+on_governance_conflict = "pdf-create-governance"

@@ -1,0 +1,46 @@
+[workflow]
+artifact = "07-quality/security-posture.md"
+intents = ["create", "update", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]
+followed_by = ["pdf-secure-sdlc-health"]
+
+[workflow.dimensions]
+# Four independent risk dimensions; any may co-apply. Each assessed yes/no/not-yet-known.
+items = [
+  "D1 — Contractual security obligations",
+  "D2 — Personal / sensitive data",
+  "D3 — Physical / embedded product",
+  "D4 — Production / live access",
+]
+unknown_value = "not-yet-known"
+require_resolve_date_when_unknown = true
+
+[workflow.tiers]
+# Overall tier = highest severity triggered. See references/posture-tier-guide.md.
+levels = ["0 — Baseline", "1 — Elevated", "2 — Sensitive", "3 — Critical"]
+tier0_requires_explicit_declaration = true
+tier0_declaration_requires_approver = true
+
+[workflow.reconciliation]
+# D2 (personal data) must reconcile to a named privacy regime in the charter.
+personal_data_requires_charter_regime = true
+flag_regime_without_triggered_dimension = true
+
+[workflow.coverage_check]
+checks = [
+  "all_four_dimensions_assessed",
+  "every_triggered_dimension_has_required_controls",
+  "single_named_owner_in_stakeholders",
+  "tier0_has_explicit_declaration",
+  "d2_has_named_regime_reconciled_to_charter",
+]
+
+[workflow.red_team]
+default = "off"
+
+[workflow.handoff]
+on_tier_2_or_higher = "pdf-secure-sdlc-health"
+on_tier_change = "pdf-decision-log"
+on_personal_data_without_charter_regime = "pdf-create-charter"
+on_tier_3_missing_controls = "pdf-decide-escalation"
+on_first_completion = "pdf-help"

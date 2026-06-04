@@ -15,7 +15,9 @@ Manages `_pdf-output/engagements/{active}/04-execution/RAID.md` in place. The fi
 
 1. Ask which RAID dimension: Risk / Assumption / Issue / Dependency.
 2. Walk the row fields:
-   - **Risk:** title, owner, likelihood (1–5), impact (1–5), treatment (Treat/Tolerate/Transfer/Terminate), mitigation, residual L×I, status (open/in-mitigation/materialised/closed)
+   - **Risk:** title, **type (threat/opportunity)**, owner, likelihood (1–5), impact (1–5), treatment, mitigation, residual L×I, status (open/in-mitigation/materialised/closed)
+     - **Type drives the allowed treatment set.** Threats: Treat / Tolerate / Transfer / Terminate. Opportunities: Exploit / Enhance / Share / Accept. Reject a treatment that doesn't match the type (e.g. "Mitigate" on an opportunity).
+     - If `06-risk-change/risk-approach.md` exists, score likelihood and impact **against its defined scales** and check the score against its severity bands / escalation threshold. If it doesn't exist, score as best-effort and offer `pdf-create-risk-approach` so future scores are grounded.
    - **Assumption:** assumption, owner, "if wrong" consequence, validation plan, status
    - **Issue:** title, owner, impact, resolution-in-progress, status (open/in-progress/closed)
    - **Dependency:** dependency, type (internal/external), owner, needed-by date, status
@@ -47,7 +49,7 @@ Checks:
 
 - [ ] Frontmatter present and `last_updated` is recent (within 14 days)
 - [ ] No row has missing required fields (per dimension)
-- [ ] Every Risk has L, I, and a treatment value from the allowed set
+- [ ] Every Risk has a type (threat/opportunity), L, I, and a treatment value from the set allowed for that type
 - [ ] No Risk has `status: open` with no owner
 - [ ] No Issue has `status: open` and is older than 21 days without an update note
 - [ ] Every Dependency has a `needed-by` date

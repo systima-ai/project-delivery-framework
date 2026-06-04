@@ -141,11 +141,12 @@ Each stage has one agent persona. The persona is a memorable handle, not a liter
 
 - **Scope:** the deep work on risk and change that doesn't fit into Ronan's high-frequency loop.
 - **Primary workflows:**
+  - `pdf-create-risk-approach` — the "plan risk management" step: defines the probability/impact scales (what a 1–5 means), the severity matrix, the risk appetite and escalation threshold, the categories, and the review cadence. Grounds every L×I score the RAID and deep-dives produce; reconciles the escalation threshold to governance.
   - `pdf-risk-deep-dive` — pick a top-5 risk; build inherent/residual score, mitigation plan, owner, deadline, triggers.
   - `pdf-create-change-request` — structured change request: trigger, impact (scope/time/cost/quality/risk), options, recommendation, approver routing.
   - `pdf-create-mitigation-plan` — for an active risk that's materialising.
   - `pdf-decide-escalation` — decision-support workflow: should this escalate, to whom, with what framing.
-- **Reference taxonomy:** Orange Book 4Ts (Treat / Tolerate / Transfer / Terminate); inherent/residual scoring. Re-skinnable.
+- **Reference taxonomy:** Orange Book 4Ts for threats (Treat / Tolerate / Transfer / Terminate) and the matching opportunity set (Exploit / Enhance / Share / Accept); risk is two-sided (threat or opportunity); inherent/residual scoring. Re-skinnable.
 
 ### 7. Quinn — Quality Steward *(stage: Quality / SDLC governance)*
 
@@ -155,6 +156,7 @@ Each stage has one agent persona. The persona is a memorable handle, not a liter
   - `pdf-qa-health` — Test Case Management, Defect Management, NFR Testing, QA Metrics, Automated Testing. RAG-rated.
   - `pdf-syseng-health` — CI/CD, Infrastructure Management. RAG-rated.
   - `pdf-secure-sdlc-health` — Secure SDLC. RAG-rated; cross-checks against OWASP and any client-specific compliance regime declared in the charter (GDPR, HIPAA, PCI, EU AI Act if AI-touching).
+  - `pdf-classify-security-posture` — the upstream scoping artifact: a four-dimension classification (contractual obligations, personal/sensitive data, physical product, production access) deriving a tier (0–3) with the controls and artifacts each triggered dimension requires. Tier 0 is an explicit owned declaration, not silence. Feeds the Secure SDLC card the bar it assesses against.
 - **Reference inputs:** charter (compliance regimes), team interviews, repo access (where authorised), CI dashboards.
 - **Note:** Quinn is the delivery-manager's *governance* of these areas, not the doer. The doer is the team's tech lead / QA lead / DevOps lead.
 
@@ -410,6 +412,7 @@ Quinn (Quality Steward) is where industry-standard Development / QA / Systems En
 | Test Case Mgmt, Defect Mgmt, NFR Testing, QA Metrics, Automated Testing | `pdf-qa-health` | `07-quality/qa-health-cards/<date>.md` |
 | CI/CD, Infrastructure Management | `pdf-syseng-health` | `07-quality/syseng-health-cards/<date>.md` |
 | Secure SDLC | `pdf-secure-sdlc-health` | `07-quality/secure-sdlc-health-cards/<date>.md` |
+| Security & privacy posture (scoping; tier + required controls) | `pdf-classify-security-posture` | `07-quality/security-posture.md` |
 
 The broader delivery-manager dimensions (budget, delivery, people, client) are covered by **Theo, Ronan, Iris, Helena** respectively. PDF is deliberately broader than any single technical-onboarding axis.
 

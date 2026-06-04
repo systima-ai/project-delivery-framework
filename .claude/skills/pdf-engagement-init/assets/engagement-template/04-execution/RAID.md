@@ -10,11 +10,11 @@ last_updated: {{CREATED_AT}}
 
 ## Risks
 
-| ID | Title | Owner | Likelihood | Impact | Inherent | Treatment | Mitigation | Residual | Status | Opened | Last Reviewed |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| _none yet_ | | | | | | | | | | | |
+| ID | Title | Type | Owner | Likelihood | Impact | Inherent | Treatment | Mitigation | Residual | Status | Opened | Last Reviewed |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| _none yet_ | | | | | | | | | | | | |
 
-**Likelihood / Impact:** 1–5. **Inherent / Residual:** L × I. **Treatment:** Treat / Tolerate / Transfer / Terminate.
+**Type:** Threat / Opportunity. **Likelihood / Impact:** 1–5 (scored against `06-risk-change/risk-approach.md` if it exists). **Inherent / Residual:** L × I. **Treatment — threats:** Treat / Tolerate / Transfer / Terminate. **Treatment — opportunities:** Exploit / Enhance / Share / Accept.
 
 ## Assumptions
 

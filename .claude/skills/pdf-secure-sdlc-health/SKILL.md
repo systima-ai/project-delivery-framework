@@ -17,18 +17,20 @@ See `references/secure-sdlc-evidence-guide.md`.
 
 - `CHARTER.md` at revision ≥ 1
 - The charter's Compliance Regimes section is parsed for the cross-check (empty is allowed; Quinn notes its absence and proceeds)
+- `07-quality/security-posture.md` (from `pdf-classify-security-posture`) is **recommended, not required**. If present, its tier and triggered dimensions scope this assessment and seed the compliance cross-check. If absent, Quinn notes it and proceeds, and offers to run `pdf-classify-security-posture` first — assessing Secure SDLC with no agreed bar is weaker than assessing against a declared posture.
 
 ## Intent: create
 
 1. **Offer source-mode.** *"Have artifacts — SAST/DAST reports, pen-test results, SCA exports, secrets-scan output, DPIA documents, conformity assessments? Paths welcome. If not, I'll interview you. [paths / interview]"*
-2. **Read paths if provided.**
-3. **Walk the six security sub-dimensions** per the evidence guide.
-4. **Run the compliance cross-check.**
+2. **Read the posture if present.** Read `07-quality/security-posture.md`. Use its tier and triggered dimensions to focus the assessment: a Tier 2/3 posture or a triggered personal-data / production-access dimension raises the bar for the relevant sub-dimensions and for the compliance cross-check. If the posture is absent, note it and offer to classify first.
+3. **Read paths if provided.**
+4. **Walk the six security sub-dimensions** per the evidence guide.
+5. **Run the compliance cross-check.**
    - Read `CHARTER.md` Compliance Regimes section.
    - For each declared regime (GDPR, HIPAA, PCI-DSS, EU AI Act, SOC 2, ISO 27001, sector-specific, etc.), look for evidence-of-being-addressed in the engagement artifacts and/or ask the user.
    - **Lax check:** missing evidence → WARNING in the compliance section, not automatic RAG demotion. The user judges overall.
-5. **Synthesise overall RAG** per the same rule.
-6. **Compose** the canonical health-card format plus the additional Compliance Regime Coverage section:
+6. **Synthesise overall RAG** per the same rule.
+7. **Compose** the canonical health-card format plus the additional Compliance Regime Coverage section:
 
 ```markdown
 ## Compliance Regime Coverage
@@ -46,12 +48,13 @@ See `references/secure-sdlc-evidence-guide.md`.
 (Warnings appear only if a regime is declared without evidence. Absent warnings is the desired state.)
 ```
 
-7. **Cross-skill side effects.**
+8. **Cross-skill side effects.**
    - Each RED security sub-dimension → offer `pdf-update-raid`.
    - Each compliance WARNING → offer `pdf-update-raid` to log the gap as a Risk and ideally as an Assumption-with-validation-plan.
    - Overall RED → offer `pdf-write-stakeholder-update` for Legal-Compliance archetype (Helena).
    - Compliance WARNING with high-impact regime (EU AI Act high-risk, PCI-DSS, HIPAA) → recommend escalation analysis via `pdf-decide-escalation` (Klaus).
-8. **Write.** `next_default` 28 days out.
+   - **Posture absent, or a Tier 2/3 control marked missing** → offer `pdf-classify-security-posture` (create or update) so the bar is explicit and the missing control is tracked at posture level.
+9. **Write.** `next_default` 28 days out.
 
 ## Intent: update / validate / dump-merge
 
@@ -76,6 +79,7 @@ Off. The internal forensic check is itself a kind of red-team; the compliance wa
 ## Reference
 
 - `references/secure-sdlc-evidence-guide.md`
+- `pdf-classify-security-posture` — the upstream posture classification this card assesses against
 - `pdf-sdlc-health/SKILL.md` for shared output structure
 - `ARCHITECTURE.md` §6.7, §16
 - Quinn's principle 6 (compliance regimes named in the charter must be visibly addressed)

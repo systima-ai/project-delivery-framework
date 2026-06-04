@@ -30,6 +30,7 @@ If the user is starting a brand-new engagement and these aren't ready, refuse an
    - *"GREEN, AMBER, or RED — and one line justifying it?"*
    - *"What moved this week that the sources don't already capture?"* (optional; sources may be sufficient)
    - *"What slipped that the sources don't already capture?"* (optional)
+   - **If anything slipped, or status is AMBER/RED — apply the corrective-action discipline:** *"First question: can we recover to the existing baseline (catch up within the current plan)? If yes, what's the corrective action and by when? If no, we re-baseline — and the variance from the original plan gets published here, not buried."* The first corrective action is always to restore to baseline; re-baselining is the fallback, and a re-baseline must be visible to stakeholders, never silent.
    - *"What are next week's top 3 priorities?"*
    - *"What asks do you have of stakeholders? (Format: From X, need Y, by Z.)"*
 4. **Compose** per `references/status-format-guide.md`. Use the canonical body template exactly.
@@ -69,6 +70,7 @@ Checks:
 - [ ] Every cited decision ID exists in `decision-log.md`
 - [ ] Every cited risk/issue ID exists in `RAID.md` at its claimed state
 - [ ] "Asks" entries have all three fields: from, need, by-when
+- [ ] If anything is in *What slipped* (or status is AMBER/RED), a corrective action is stated: either a recover-to-baseline action with a date, or an explicit re-baseline with the variance named
 
 Report pass/fail; do not modify.
 

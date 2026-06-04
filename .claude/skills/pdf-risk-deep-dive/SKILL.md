@@ -13,6 +13,7 @@ After the deep-dive is written, the workflow **offers** (but does not force) to 
 
 - `RAID.md` exists and has at least one open risk
 - The risk to deep-dive on is named in RAID (risk ID like `R-003`)
+- `06-risk-change/risk-approach.md` recommended: if present, residual L×I is interpreted **against its severity bands and escalation threshold** (so "residual 6" maps to a named band and a required response). If absent, the deep-dive proceeds and notes that the score is unanchored.
 
 ## Intent: create
 
@@ -132,5 +133,6 @@ Default off. Recommended if the deep-dive will be shared externally (e.g. as par
 
 ## Reference
 
+- `pdf-create-risk-approach` — the scales and severity bands residual scores are interpreted against
 - `ARCHITECTURE.md` §6.6
 - Klaus's principles 1 (risks are owned) and 5 (honest probability)
