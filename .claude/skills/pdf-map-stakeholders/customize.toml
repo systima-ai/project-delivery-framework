@@ -1,0 +1,40 @@
+# pdf-map-stakeholders customisation
+
+[workflow]
+artifact_pattern = "00-constitution/STAKEHOLDER-MAP.md"
+intents = ["create", "update", "validate", "dump"]
+preceded_by = ["pdf-create-charter"]
+followed_by = ["pdf-create-comms-plan"]
+
+[workflow.grid]
+quadrants = ["Manage Closely", "Keep Satisfied", "Keep Informed", "Monitor"]
+axes = ["influence", "interest"]
+
+[workflow.salience]
+attributes = ["power", "legitimacy", "urgency"]
+tiers = ["Definitive", "Expectant", "Latent", "Non-salient"]
+derive_tier_never_elicit = true
+
+[workflow.profile]
+fields = ["motivations", "judged_on", "working_style", "trust_level", "engagement_approach"]
+profile_required_for_quadrants = ["Manage Closely", "Keep Satisfied"]
+
+[workflow.profile.trust_levels]
+values = ["Nascent", "Working", "Trusted-advisor"]
+
+[workflow.sources]
+default_mode = "ask"
+fallback_mode = "interview"
+record_in_frontmatter = true
+
+[workflow.revision]
+living_document = true
+append_only_change_log = true
+
+[workflow.red_team]
+default = "off"
+recommend_on_first_finalisation = true
+
+[workflow.handoff]
+on_completion = "pdf-create-comms-plan"
+on_nascent_manage_closely = "pdf-relationship-health"

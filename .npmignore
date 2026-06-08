@@ -31,6 +31,9 @@ yarn-error.log*
 *.confidential.md
 *.confidential/
 
+# Private development notes — never publish
+_meta/
+
 # Test scratch
 .test/
 test-output/

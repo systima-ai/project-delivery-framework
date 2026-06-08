@@ -28,7 +28,7 @@ Acceptance criteria:
 - Day-to-day client lead named
 - At least one named contact per discipline you're delivering (e.g. tech lead, security, procurement)
 
-Detail goes into `STAKEHOLDERS.md`. The charter section is the summary list.
+Detail goes into `STAKEHOLDERS.md` (the factual register: names, roles, organisations, comms preferences). The charter section is the summary list. The analysis of those stakeholders — influence/interest position, salience, motivations, working style, and trust level — lives in `STAKEHOLDER-MAP.md`, built by `pdf-map-stakeholders`; the map cites the register by ID rather than restating it.
 
 ## Success Criteria
 

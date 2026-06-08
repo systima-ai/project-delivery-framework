@@ -28,8 +28,9 @@ Klaus's principle 2 is the constraint: change requests price the full impact, no
 4. **Infer the classic taxonomy** using the rules in the reference. Show the user the inference. Allow override (with note recorded in frontmatter).
 5. **Elicit options.** *"What options are on the table? Minimum two; one must be 'do not make this change'."*
 6. **Recommend.** *"Which option do you recommend, and what trade-off are you accepting?"*
-7. **Routing.** *"Who must approve this? (Reference `GOVERNANCE.md` decision-rights matrix.)"*
-8. **Compose:**
+7. **Routing.** *"Who must approve this? (Reference `GOVERNANCE.md` decision-rights matrix, and the stakeholder's position in `STAKEHOLDER-MAP.md` where it exists — a Manage-Closely or Keep-Satisfied approver is named explicitly.)"*
+8. **Cumulative-creep check.** Before composing, scan prior CRs in the engagement. Count those of `minor` granular impact, including any small "delighter" or one-off accommodations logged as light-path changes. If three or more sit unconsolidated, set `cumulative_creep_watch: true` in frontmatter and add a one-line note to the recommendation: many small uncontracted changes can sum to a material impact on timeline or cost, and the trend is now worth a deliberate consolidation or a single change order. This applies even when the current CR is itself minor.
+9. **Compose:**
 
 ```markdown
 ---
@@ -44,6 +45,7 @@ charter_revision_at_creation: <N>
 generated_by: pdf-create-change-request
 red_teamed: false
 approver_routing: [<name>, ...]
+cumulative_creep_watch: false
 ---
 
 # Change request — CR-<NNN> — <title>
@@ -114,13 +116,14 @@ _Derived from the granular taxonomy. See `pdf-create-change-request/references/c
 - Related risks: <R-NNN list or "none">
 ```
 
-9. **Run simulated red-team inline:**
+10. **Run simulated red-team inline:**
    - *Is there a dimension I called "none" that an approver would dispute?*
    - *Is the "do not make this change" option honestly costed?*
    - *Is the recommended option self-serving for the delivery team?*
    - *Is the approver routing correct per the governance plan?*
-10. **Write the file.** Status starts at `draft`.
-11. **Hand off:**
+   - *Is this the third small change in a row that nobody has consolidated?*
+11. **Write the file.** Status starts at `draft`.
+12. **Hand off:**
    - If Commercial dimension is at minor+, offer `pdf-create-change-order` (Theo — not yet built; track for Stage 6).
    - If approver routing names someone above the line, offer `pdf-decide-escalation` to make the escalation choice explicit.
    - Otherwise return to Klaus's menu.
@@ -142,6 +145,7 @@ _Derived from the granular taxonomy. See `pdf-create-change-request/references/c
 - [ ] At least two options + a "do not make this change" option
 - [ ] Recommendation names an option and states the trade-off
 - [ ] Approver routing references names in STAKEHOLDERS.md and decision rights in GOVERNANCE.md
+- [ ] `cumulative_creep_watch` set; if true, the recommendation carries the consolidation note
 - [ ] Frontmatter `red_teamed: true` before status moves beyond `draft`
 
 ## Intent: dump-merge

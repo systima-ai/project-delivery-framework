@@ -31,11 +31,12 @@ The deck **does not invent content** — it composes from existing artifacts. Th
    7. Who decides what — RACI summary (top 5 workstreams only; full RACI is the appendix)
    8. How we govern — Cadence table from GOVERNANCE
    9. How we communicate — Rituals table from COMMS-PLAN
-   10. Risks we're already watching — top 3 from RAID (if exists; otherwise placeholder)
-   11. The first 30 days — placeholder for Petra's plan once it exists; otherwise a sketch
-   12. Asks — what the delivery team needs from stakeholders on day 1
-   13. Q&A
-   14. Appendix: full RACI, full governance plan, full comms plan
+   10. How we work together — ways-of-working alignment, both directions: feedback and escalation norms, decision protocols, time-zone overlap and working-hours, onboarding/rotation handling, and how each side's roles map. This slide is bidirectional by design: it states how we work and asks the client to state how they work, so misaligned expectations surface in week one rather than at the first escalation.
+   11. Risks we're already watching — top 3 from RAID (if exists; otherwise placeholder)
+   12. The first 30 days — placeholder for Petra's plan once it exists; otherwise a sketch
+   13. Asks — what the delivery team needs from stakeholders on day 1
+   14. Q&A
+   15. Appendix: full RACI, full governance plan, full comms plan
 3. **Compose voice.** Use the engagement's audience profile (see `customize.toml` `[workflow.audience]`). Default tone: professional, confident, no jargon, no buzzwords.
 4. **Confirm before write.** Show the slide outline; ask: *"Generate full content or refine the outline first?"*
 5. **Write.** Frontmatter includes `red_teamed: false` initially.
@@ -51,7 +52,8 @@ The deck **does not invent content** — it composes from existing artifacts. Th
 
 Checks:
 
-- [ ] All 14 canonical slides present (or explicitly skipped with a reason)
+- [ ] All 15 canonical slides present (or explicitly skipped with a reason)
+- [ ] The "How we work together" slide states ways of working in both directions (ours stated, client's invited)
 - [ ] Scope slide matches charter Scope
 - [ ] Success slide matches charter Success Criteria
 - [ ] Stakeholder slide names match STAKEHOLDERS.md
@@ -62,7 +64,7 @@ Checks:
 
 ## Intent: dump-merge
 
-If pre-existing kickoff material is dumped via Marcus, treat it as a source for the *Why we're here* and *Asks* slides; do not let dumped content override the structured slides 3–9 (those are derived from the constitution).
+If pre-existing kickoff material is dumped via Marcus, treat it as a source for the *Why we're here*, *How we work together*, and *Asks* slides; do not let dumped content override the structured slides 3–9 (those are derived from the constitution).
 
 ## Red-team gate
 

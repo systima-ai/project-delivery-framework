@@ -44,6 +44,7 @@ The richest open building blocks today are:
 | **Spec Kit / GSD** | `constitution.md` pattern → `CHARTER.md` as the living spec with explicit change-log | Code-generation grounding rules |
 | **PMI Infinity / PMBOK** | Naming conventions for Charters, RACI, Stakeholder Management Plan, Risk Management Plan; PMI's Role+Goal+Context+Constraints+Format prompt skeleton | The hosted-service model; the Infinity AI itself (accuracy concerns) |
 | **Industry technical-delivery hygiene taxonomies** | Quality steward agent covers Code Quality / Unit Testing / Code Review / Tech Debt / Branching / Test Mgmt / Defects / NFRs / QA Metrics / Automated Testing / CI/CD / Infra / Secure SDLC | Any single firm's internal branding — PDF stays vendor-neutral |
+| **Stakeholder-management scholarship** | Influence/interest grid (Mendelow 1991; Eden & Ackermann 1998), stakeholder salience attributes of power/legitimacy/urgency (Mitchell, Agle & Wood 1997), stakeholder rings (Cockburn), and the trust equation (Maister, Green & Galford, *The Trusted Advisor*, 2000) — informing `pdf-map-stakeholders` and `pdf-relationship-health` | Any single firm's internal training, slideware, or branding — PDF cites the primary public sources and stays vendor-neutral |
 
 ---
 

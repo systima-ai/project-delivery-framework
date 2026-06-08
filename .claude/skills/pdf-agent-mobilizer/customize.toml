@@ -28,6 +28,7 @@ files = [
 artifacts = [
   { key = "charter",    path = "00-constitution/CHARTER.md" },
   { key = "stakeholders", path = "00-constitution/STAKEHOLDERS.md" },
+  { key = "stakeholder_map", path = "00-constitution/STAKEHOLDER-MAP.md" },
   { key = "raci",       path = "00-constitution/RACI.md" },
   { key = "governance", path = "00-constitution/GOVERNANCE.md" },
   { key = "comms_plan", path = "00-constitution/COMMS-PLAN.md" },
@@ -58,6 +59,11 @@ skill = "pdf-create-comms-plan"
 code = "5"
 description = "Kickoff deck"
 skill = "pdf-create-kickoff-deck"
+
+[[agent.menu.items]]
+code = "6"
+description = "Stakeholder map"
+skill = "pdf-map-stakeholders"
 
 [[agent.menu.items]]
 code = "d"

@@ -16,8 +16,8 @@ BMAD, Spec Kit, and the Anthropic Knowledge Work Plugins gave the engineering la
 PDF reuses BMAD's architecture — persona-mediated stage agents that dispatch to versioned workflow skills producing markdown artifacts — and points it at the delivery-management layer:
 
 - **10 stage agents** for the engagement lifecycle (shaping → mobilization → planning → execution → governance → risk → quality → commercial → people → closure)
-- **37 workflow skills** that produce structured, audit-ready artifacts
-- **5 cross-cutting utilities** (red-team, translate, decision-log, audit-log, elicit)
+- **39 workflow skills** that produce structured, audit-ready artifacts
+- **6 cross-cutting utilities** (red-team, translate, decision-log, audit-log, elicit, diagnose-situation)
 - Living **engagement charter as the constitution** every artifact reconciles to
 - **Audit-by-default**: prompt+model+hash logged per workflow run
 - **Adversarial red-team** gate on every outward-facing artifact
@@ -57,7 +57,7 @@ npx @systima/project-delivery-framework status
 
 The installer copies skills into **three locations** so multiple AI tools work out of the box:
 
-- `.claude/skills/pdf-*/` — primary location; discovered natively by **Claude Code** and **OpenCode** (65 skill folders)
+- `.claude/skills/pdf-*/` — primary location; discovered natively by **Claude Code** and **OpenCode** (70 skill folders)
 - `.agents/skills/pdf-*/` — tool-agnostic mirror for any agent following the `.agents/skills/` convention
 - `.opencode/commands/pdf-*.md` — slash-command wrappers so PDF commands appear as `/pdf-help`, `/pdf-agent-mobilizer`, etc. in **OpenCode**'s TUI
 
@@ -101,10 +101,10 @@ Each agent greets, scans what's done, presents a menu of workflows, and dispatch
 | Stage | Agent | What they handle |
 |---|---|---|
 | 01 — Shaping (pre-sales) | **Sofia** | Qualification (MEDDIC), opportunity shaping, ROM estimates (cone of uncertainty), SoW drafting |
-| 02 — Mobilization | **Marcus** | Engagement charter (constitution), RACI, governance plan, comms plan, kickoff deck |
+| 02 — Mobilization | **Marcus** | Engagement charter (constitution), RACI, governance plan, comms plan, kickoff deck, stakeholder map (influence/interest + salience + profiles) |
 | 03 — Planning | **Petra** | Plan (Mermaid Gantt + phase table), capacity plan (matrix + rows), budget baseline (monthly + milestone), estimate challenge (pre-mortem + red-team) |
 | 04 — Execution | **Ronan** | Weekly status (Teams/Slack-paste-friendly), RAID updates, standup digests, velocity checks, blocker triage |
-| 05 — Governance | **Helena** | Steering packs (MARP + speaker notes), exec summaries (strict 1-page), stakeholder updates (9 archetypes), escalation memos (SCQA) |
+| 05 — Governance | **Helena** | Steering packs (MARP + speaker notes), exec summaries (strict 1-page), stakeholder updates (9 archetypes), escalation memos (SCQA), relationship-health cards (RAG; trust-equation dimensions) |
 | 06 — Risk & Change | **Klaus** | Risk deep-dives, change requests (granular taxonomy → classic inference), mitigation plans, escalation decisions |
 | 07 — Quality | **Quinn** | SDLC / QA / SysEng / Secure SDLC health cards (RAG-rated; with compliance regime cross-check) |
 | 08 — Commercial | **Theo** | Budget tracker (weekly + monthly), margin analysis (period + milestone), change orders, commercial-model reviews, invoice backup packs |
@@ -131,8 +131,8 @@ project-delivery-framework/
 ├── LICENSE                  # MIT
 ├── package.json             # npm metadata; `bin` = installer CLI
 ├── bin/cli.js               # npx installer
-├── .claude/skills/          # 65 skill folders (pdf-*)
-├── _pdf/_config/            # pdf-help.csv (52-row skill index)
+├── .claude/skills/          # 70 skill folders (pdf-*)
+├── _pdf/_config/            # pdf-help.csv (60-row skill index)
 └── _pdf-output/             # output root (engagements + practice library)
     ├── engagements/         # one folder per engagement (gitignored content)
     └── practice/            # cross-engagement lessons library
@@ -146,7 +146,7 @@ project-delivery-framework/
 
 ## Status
 
-**v0.1 — feature-complete.** 52 workflows + 10 agents built across 11 development stages with explicit consultation gates per stage. See [`CHANGELOG.md`](./CHANGELOG.md).
+**v0.1 — feature-complete.** 55 workflows + 10 agents built across 11 development stages with explicit consultation gates per stage. See [`CHANGELOG.md`](./CHANGELOG.md).
 
 Known future work (out of scope for v0.1):
 

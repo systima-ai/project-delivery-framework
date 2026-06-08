@@ -1,0 +1,41 @@
+# pdf-diagnose-situation customisation
+
+[workflow]
+artifact_pattern = "diagnostics/{date}-{slug}.md"
+intents = ["diagnose", "validate", "dump-merge"]
+preceded_by = []
+followed_by = []
+
+[workflow.method]
+spine = ["clarify", "frame", "options", "recommend", "plan", "communicate", "route"]
+frame_before_options = true
+
+[workflow.patterns]
+items = [
+  "P1 Ambiguous opportunity",
+  "P2 Health drifting (green to amber)",
+  "P3 Expectation gap surfaced late (amber to red)",
+  "P4 Over-specified or hard-to-source role",
+  "P5 Out-of-contract request / scope creep",
+  "P6 General stakeholder dissatisfaction",
+]
+allow_multiple_matches = true
+
+[workflow.context_reads]
+files = [
+  "00-constitution/CHARTER.md",
+  "04-execution/RAID.md",
+  "00-constitution/STAKEHOLDER-MAP.md",
+  "05-governance/relationship-health-cards/",
+]
+
+[workflow.options]
+minimum = 2
+require_hold_option_where_genuine = true
+require_named_tradeoff = true
+
+[workflow.red_team]
+default = "off"
+
+[workflow.handoff]
+on_completion = "pdf-help"

@@ -31,3 +31,6 @@ ACTIVE_ENGAGEMENT
 # Anything explicitly marked confidential
 *.confidential.md
 *.confidential/
+
+# Private development notes — never commit
+_meta/

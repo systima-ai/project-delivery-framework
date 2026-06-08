@@ -21,6 +21,7 @@ artifacts = [
   { key = "exec_summary",  path_pattern = "05-governance/exec-updates/*.md" },
   { key = "stakeholder",   path_pattern = "05-governance/stakeholder-updates/*.md" },
   { key = "escalations",   path_pattern = "05-governance/escalations/*.md" },
+  { key = "relationship_health", path_pattern = "05-governance/relationship-health-cards/*.md" },
   { key = "weekly_status", path_pattern = "04-execution/weekly-status/*.md" },
 ]
 
@@ -49,6 +50,11 @@ skill = "pdf-write-stakeholder-update"
 code = "4"
 description = "Escalation memo"
 skill = "pdf-write-escalation-memo"
+
+[[agent.menu.items]]
+code = "5"
+description = "Relationship health check"
+skill = "pdf-relationship-health"
 
 [[agent.menu.items]]
 code = "d"
