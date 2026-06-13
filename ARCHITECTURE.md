@@ -793,4 +793,35 @@ Until then, the source-mode pattern (`paths` / `interview`) is the canonical int
 
 ---
 
-*End of architecture draft. Section 15 decisions locked; Stages 0–8 built; Stage 11 (cross-cutting utilities) and Stage 12 (API sync) planned.*
+## 21. Knowledge interchange: the Open Knowledge Format projection
+
+PDF's artifacts independently converged on the same shape now formalised by the **[Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf) (OKF) v0.1**: a directory of markdown files, each with YAML frontmatter and a markdown body, cross-linked with markdown links, with reserved `index.md` (progressive disclosure) and `log.md` (chronology) files. PDF already does all of this; its frontmatter is simply *richer* than OKF's minimal `type / title / description / resource / tags / timestamp`.
+
+### Decision: project, don't convert
+
+PDF does **not** adopt OKF as its native storage format. PDF's frontmatter (`charter_revision`, `sources`, `red_teamed`, `prompt_hash`, `model`) encodes the audit-defensibility and charter-reconciliation that are the framework's reason to exist; OKF's flat field set would be a downgrade. And OKF's core value proposition — cross-organisation knowledge *sharing* so many agents can consume one wiki — is largely **not PDF's problem**: PDF is local-first, single-operator, confidential-by-default.
+
+Instead, `pdf-export-okf` (Stage 11 cross-cutting utility) emits a **one-way, lossless, superset projection**: it adds OKF's canonical fields *alongside* PDF's existing fields, so a bundle round-trips back to source without information loss. Because PDF's frontmatter is a strict superset of OKF's, the projection is mechanical.
+
+### When the projection earns its keep
+
+- **Handover.** A successor (or a replacement delivery manager) can receive a portable, browsable bundle alongside the `pdf-create-handover-pack` output, viewable in any OKF consumer with no PDF install.
+- **Client-shareable assets.** A redacted slice (case study, retrospective public variant) becomes an external-safe bundle using the same redaction conventions as those workflows' public variants.
+- **Forward-compatibility with knowledge catalogs.** A knowledge catalog that speaks OKF can ingest a bundle and serve it to its own agents — relevant if PDF ever feeds a portfolio view or a multi-engagement knowledge layer.
+
+### Guardrails (inherited from PDF's principles)
+
+- **Read-only.** The native engagement is never modified; bundles are written under `exports/okf/<timestamp>/`.
+- **Confidential-by-exclusion.** `09-people/` is excluded by default and requires explicit per-run confirmation; `audit-log/` and `.sync-cache/` are never exported.
+- **Adversarial before outward.** Full-fidelity bundles destined to leave the machine surface any `red_teamed: false` concept and recommend `pdf-red-team` first.
+- **Validation with a fatal confidential-leak check.** The `validate` intent treats any leaked People-stage or named-individual content (when the manifest declares it excluded/redacted) as a fatal finding.
+
+### Out of scope for v0.1
+
+**Importing** an external OKF bundle as canonical PDF artifacts. PDF artifacts carry obligations OKF doesn't model (charter reconciliation, red-team posture, single-writer-per-fact); a naive import would produce artifacts that pass OKF conformance but fail PDF's invariants. `pdf-export-okf`'s `dump-merge` intent *advises* on how an external bundle maps back, rather than writing it in. Two-way sync is a future-work candidate.
+
+The field mapping, reserved-filename rules, cross-link rewriting, redaction classes, and conformance criteria live in `pdf-export-okf/references/okf-mapping.md`.
+
+---
+
+*End of architecture draft. Section 15 decisions locked; Stages 0–8 built; Stage 11 (cross-cutting utilities, inc. OKF interchange §21) and Stage 12 (API sync) planned.*

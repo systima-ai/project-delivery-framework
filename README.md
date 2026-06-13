@@ -17,7 +17,7 @@ PDF reuses BMAD's architecture — persona-mediated stage agents that dispatch t
 
 - **10 stage agents** for the engagement lifecycle (shaping → mobilization → planning → execution → governance → risk → quality → commercial → people → closure)
 - **39 workflow skills** that produce structured, audit-ready artifacts
-- **6 cross-cutting utilities** (red-team, translate, decision-log, audit-log, elicit, diagnose-situation)
+- **7 cross-cutting utilities** (red-team, translate, decision-log, audit-log, elicit, diagnose-situation, export-okf)
 - Living **engagement charter as the constitution** every artifact reconciles to
 - **Audit-by-default**: prompt+model+hash logged per workflow run
 - **Adversarial red-team** gate on every outward-facing artifact
@@ -57,7 +57,7 @@ npx @systima/project-delivery-framework status
 
 The installer copies skills into **three locations** so multiple AI tools work out of the box:
 
-- `.claude/skills/pdf-*/` — primary location; discovered natively by **Claude Code** and **OpenCode** (70 skill folders)
+- `.claude/skills/pdf-*/` — primary location; discovered natively by **Claude Code** and **OpenCode** (71 skill folders)
 - `.agents/skills/pdf-*/` — tool-agnostic mirror for any agent following the `.agents/skills/` convention
 - `.opencode/commands/pdf-*.md` — slash-command wrappers so PDF commands appear as `/pdf-help`, `/pdf-agent-mobilizer`, etc. in **OpenCode**'s TUI
 

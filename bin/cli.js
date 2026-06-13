@@ -78,7 +78,7 @@ Options:
   --help, -h       Show this help
 
 What gets installed:
-  <target>/.claude/skills/pdf-*/          (62 skill folders)
+  <target>/.claude/skills/pdf-*/          (71 skill folders)
   <target>/_pdf/_config/pdf-help.csv      (skill index)
   <target>/_pdf-output/engagements/       (with .gitkeep)
   <target>/_pdf-output/practice/          (with .gitkeep)

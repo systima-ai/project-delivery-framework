@@ -1,0 +1,61 @@
+[workflow]
+artifact_pattern = "exports/okf/**"  # bundles are written under the engagement's exports/ tree
+intents = ["export", "export-slice", "validate", "dump-merge"]
+preceded_by = ["pdf-create-charter"]  # needs a populated charter to project from
+
+[workflow.scope]
+default = "full"
+options = ["full", "slice"]
+
+[workflow.fidelity]
+default = "full"
+options = ["full", "redacted"]
+# redacted reuses the public-variant redaction conventions from case-study / retrospective
+redacted_strips = ["named-individuals", "day-rates", "margin-figures", "client-confidential-specifics"]
+
+[workflow.confidentiality]
+# 09-people is excluded unless the user explicitly opts in per run
+exclude_by_default = ["09-people"]
+never_export = ["audit-log", ".sync-cache"]
+source_material_excluded_by_default = ["_transcripts"]
+include_confidential_requires_confirmation = true
+
+[workflow.okf]
+spec_version = "0.1"
+spec_url = "https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf"
+required_field = "type"  # OKF's single hard requirement
+canonical_fields = ["type", "title", "description", "resource", "tags", "timestamp"]
+reserved_filenames = ["index.md", "log.md"]
+preserve_pdf_frontmatter = true  # lossless superset projection
+rewrite_sources_as_links = true
+
+[workflow.field_mapping]
+# OKF canonical field  <-  PDF source
+type = "artifact_type"
+title = "h1"
+description = "lead-summary-or-per-type-default"
+resource = "engagement-relative-path"
+tags = "stage + artifact_type + engagement-slug"
+timestamp = "last_updated | red_team_pass_at | date | file-mtime"
+
+[workflow.validate]
+fatal_on_confidential_leak = true
+require_type_field = true
+require_links_resolve = true
+require_manifest = true
+
+[workflow.refusals]
+refuse_confidential_without_confirmation = true
+refuse_export_audit_or_cache = true
+refuse_lossy_projection = true
+refuse_replacing_native_artifacts = true
+refuse_outward_full_fidelity_without_red_team_prompt = true
+
+[workflow.red_team]
+default_on = false  # the projection is mechanical; not adversarially reviewed itself
+flag_un_red_teamed_concepts = true
+
+[workflow.handoff]
+on_completion = "pdf-help"
+on_outward_share = "pdf-red-team"
+on_handover = "pdf-create-handover-pack"

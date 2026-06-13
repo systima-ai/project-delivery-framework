@@ -2,6 +2,20 @@
 
 All notable changes to the Project Delivery Framework.
 
+## [0.2.0] — 2026-06-13
+
+### Added
+
+- **`pdf-export-okf` (meta utility).** New cross-cutting utility that projects an engagement (or a slice of it) into an **[Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf) (OKF) v0.1 bundle** — a vendor-neutral directory of markdown-plus-frontmatter concept files (`type / title / description / resource / tags / timestamp`), cross-linked with markdown links, with reserved `index.md` (progressive disclosure) and `log.md` (chronology) files. PDF's artifacts already share OKF's shape with richer frontmatter, so this is a **one-way, lossless, superset projection** (adds OKF's canonical fields *alongside* PDF's `charter_revision` / `sources` / `red_teamed` / `prompt_hash` / `model`), not a conversion — PDF's native artifacts remain the source of truth. **Read-only** (the engagement is never modified; bundles land under `exports/okf/<timestamp>/`); **confidential-by-exclusion** (`09-people/` excluded by default and requires explicit per-run confirmation, `audit-log/` and `.sync-cache/` never exported); **adversarial before outward** (flags `red_teamed: false` concepts and recommends `pdf-red-team` before sharing). Intents: `export`, `export-slice`, `validate` (conformance check; a confidential leak is a **fatal** finding), and a read-only `dump-merge` that advises how an external bundle maps back into PDF. Redacted fidelity reuses the public-variant conventions from `pdf-create-case-study` / `pdf-run-retrospective`. Includes `references/okf-mapping.md` (field mapping, reserved-filename rules, cross-link rewriting, redaction classes, conformance criteria).
+
+### Changed
+
+- `pdf-help.csv` (one new meta row), `ARCHITECTURE.md` (new §21 — Knowledge interchange: the OKF projection, with the project/don't-convert decision and guardrails), the README counts (7 cross-cutting utilities; 71 skill folders), and the installer help text updated for the new utility.
+
+### Notes
+
+- Minor version bump (`0.1.x` → `0.2.0`): the first capability that addresses outward knowledge *interchange*, distinct from the inward delivery-management surface of `0.1`.
+
 ## [0.1.7] — 2026-06-08
 
 ### Added
